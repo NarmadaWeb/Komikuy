@@ -58,9 +58,9 @@ class DiscoverScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: (genre['color'] as Color).withOpacity(0.1),
+                        color: (genre['color'] as Color).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: (genre['color'] as Color).withOpacity(0.3)),
+                        border: Border.all(color: (genre['color'] as Color).withValues(alpha: 0.3)),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +122,7 @@ class DiscoverScreen extends StatelessWidget {
                      Positioned(
                        right: -10,
                        bottom: -10,
-                       child: Icon(Icons.auto_awesome, size: 80, color: Colors.white.withOpacity(0.2)),
+                       child: Icon(Icons.auto_awesome, size: 80, color: Colors.white.withValues(alpha: 0.2)),
                      ),
                    ],
                  ),

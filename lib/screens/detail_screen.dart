@@ -80,7 +80,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
-                              Colors.black.withOpacity(0.8),
+                              Colors.black.withValues(alpha: 0.8),
                             ],
                           ),
                         ),
@@ -164,7 +164,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 padding: const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                 elevation: 4,
-                                shadowColor: Theme.of(context).primaryColor.withOpacity(0.4),
+                                shadowColor: Theme.of(context).primaryColor.withValues(alpha: 0.4),
                               ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -195,7 +195,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               style: OutlinedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                side: BorderSide(color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                                side: BorderSide(color: Theme.of(context).primaryColor.withValues(alpha: 0.5)),
                               ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -219,7 +219,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       const SizedBox(height: 8),
                       Text(
                         detail.description.isNotEmpty ? detail.description : 'No synopsis available.',
-                        style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.8), height: 1.5),
+                        style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.8), height: 1.5),
                       ),
                       const SizedBox(height: 24),
                       Row(
