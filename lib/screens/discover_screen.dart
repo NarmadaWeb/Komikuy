@@ -89,45 +89,6 @@ class DiscoverScreen extends StatelessWidget {
                 },
               ),
             ),
-            // Random Pick Button
-            InkWell(
-               onTap: () {
-                 // TODO: Implement random pick
-                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Picking random comic...')));
-               },
-               child: Container(
-                 width: double.infinity,
-                 padding: const EdgeInsets.all(20),
-                 decoration: BoxDecoration(
-                   color: Theme.of(context).primaryColor,
-                   borderRadius: BorderRadius.circular(16),
-                 ),
-                 child: Stack(
-                   clipBehavior: Clip.none,
-                   children: [
-                     Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         const Text('Random Pick', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
-                         const SizedBox(height: 4),
-                         const Text("Can't decide? Let us choose for you!", style: TextStyle(color: Colors.white70, fontSize: 12)),
-                         const SizedBox(height: 12),
-                         Container(
-                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                           decoration: const ShapeDecoration(shape: StadiumBorder(), color: Colors.white),
-                           child: Text('Surprise Me', style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold)),
-                         ),
-                       ],
-                     ),
-                     Positioned(
-                       right: -10,
-                       bottom: -10,
-                       child: Icon(Icons.auto_awesome, size: 80, color: Colors.white.withValues(alpha: 0.2)),
-                     ),
-                   ],
-                 ),
-              ),
-            ),
             const SizedBox(height: 20),
           ],
         ),
