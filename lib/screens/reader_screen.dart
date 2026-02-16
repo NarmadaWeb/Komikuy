@@ -99,7 +99,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
             left: 0,
             right: 0,
             child: AppBar(
-              backgroundColor: Colors.black.withOpacity(0.8),
+              backgroundColor: Colors.black.withValues(alpha: 0.8),
               elevation: 0,
               iconTheme: const IconThemeData(color: Colors.white),
               leading: IconButton(
@@ -126,7 +126,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
             left: 0,
             right: 0,
             child: Container(
-              color: Colors.black.withOpacity(0.8),
+              color: Colors.black.withValues(alpha: 0.8),
               padding: const EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
