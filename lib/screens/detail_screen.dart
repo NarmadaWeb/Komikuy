@@ -154,7 +154,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                   // Assuming chapters are Descending, so Last is First Chapter
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (_) => ReaderScreen(chapter: detail.chapters.last, comic: comic)),
+                                    MaterialPageRoute(builder: (_) => ReaderScreen(
+                                      initialChapter: detail.chapters.last,
+                                      chapters: detail.chapters,
+                                      comic: comic,
+                                    )),
                                   );
                                 }
                               },
@@ -188,7 +192,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                 if (detail.chapters.isNotEmpty) {
                                    Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (_) => ReaderScreen(chapter: detail.chapters.first, comic: comic)),
+                                    MaterialPageRoute(builder: (_) => ReaderScreen(
+                                      initialChapter: detail.chapters.first,
+                                      chapters: detail.chapters,
+                                      comic: comic,
+                                    )),
                                   );
                                 }
                               },
@@ -242,7 +250,11 @@ class _DetailScreenState extends State<DetailScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => ReaderScreen(chapter: chapter, comic: comic)),
+                          MaterialPageRoute(builder: (_) => ReaderScreen(
+                            initialChapter: chapter,
+                            chapters: detail.chapters,
+                            comic: comic,
+                          )),
                         );
                       },
                       leading: Container(

@@ -8,25 +8,45 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ReaderScreen extends StatefulWidget {
-  final Chapter chapter;
+  final Chapter initialChapter;
+  final List<Chapter> chapters;
   final Comic comic;
 
-  const ReaderScreen({super.key, required this.chapter, required this.comic});
+  const ReaderScreen({
+    super.key,
+    required this.initialChapter,
+    required this.chapters,
+    required this.comic,
+  });
 
   @override
   State<ReaderScreen> createState() => _ReaderScreenState();
 }
 
 class _ReaderScreenState extends State<ReaderScreen> {
+  late Chapter _currentChapter;
   late Future<List<String>> _imagesFuture;
   bool _showUI = true;
 
   @override
   void initState() {
     super.initState();
-    _imagesFuture = context.read<ComicProvider>().getChapterImages(widget.chapter.href);
-    context.read<ComicProvider>().addToHistory(widget.comic);
+    _currentChapter = widget.initialChapter;
+    _imagesFuture = context.read<ComicProvider>().getChapterImages(_currentChapter.href);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<ComicProvider>().addToHistory(widget.comic);
+      }
+    });
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  }
+
+  void _navigateToChapter(Chapter chapter) {
+    setState(() {
+      _currentChapter = chapter;
+      _imagesFuture = context.read<ComicProvider>().getChapterImages(_currentChapter.href);
+    });
+    context.read<ComicProvider>().addToHistory(widget.comic);
   }
 
   @override
@@ -43,6 +63,18 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currentIndex = widget.chapters.indexWhere((c) => c.href == _currentChapter.href);
+
+    // Assuming standard manga list order: Newest (Index 0) -> Oldest (Index N)
+    // "Next" usually means reading forward in the story (e.g. Ch 1 -> Ch 2).
+    // If list is [Ch 10, Ch 9, ... Ch 1]
+    // Ch 1 is at Index N. Next is Ch 2 (Index N-1).
+    // So Next is index - 1.
+    // Prev is index + 1.
+
+    final hasNext = currentIndex > 0;
+    final hasPrev = currentIndex != -1 && currentIndex < widget.chapters.length - 1;
+
     return Scaffold(
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
@@ -52,6 +84,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
             onTap: _toggleUI,
             child: FutureBuilder<List<String>>(
               future: _imagesFuture,
+              key: ValueKey(_currentChapter.href), // Force rebuild on chapter change
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -106,7 +139,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () => Navigator.pop(context),
               ),
-              title: Text(widget.chapter.title, style: const TextStyle(color: Colors.white, fontSize: 16)),
+              title: Text(_currentChapter.title, style: const TextStyle(color: Colors.white, fontSize: 16)),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.bookmark_border),
@@ -132,18 +165,18 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton.icon(
-                    onPressed: () {
-                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Previous Chapter')));
-                    },
-                    icon: const Icon(Icons.skip_previous, color: Colors.white),
-                    label: const Text('Prev', style: TextStyle(color: Colors.white)),
+                    onPressed: hasPrev ? () {
+                       _navigateToChapter(widget.chapters[currentIndex + 1]);
+                    } : null,
+                    icon: Icon(Icons.skip_previous, color: hasPrev ? Colors.white : Colors.grey),
+                    label: Text('Prev', style: TextStyle(color: hasPrev ? Colors.white : Colors.grey)),
                   ),
                    TextButton.icon(
-                    onPressed: () {
-                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Next Chapter')));
-                    },
-                    label: const Text('Next', style: TextStyle(color: Colors.white)),
-                    icon: const Icon(Icons.skip_next, color: Colors.white),
+                    onPressed: hasNext ? () {
+                       _navigateToChapter(widget.chapters[currentIndex - 1]);
+                    } : null,
+                    label: Text('Next', style: TextStyle(color: hasNext ? Colors.white : Colors.grey)),
+                    icon: Icon(Icons.skip_next, color: hasNext ? Colors.white : Colors.grey),
                   ),
                 ],
               ),
