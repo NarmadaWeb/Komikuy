@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:komikuy/models/comic.dart';
 import 'package:komikuy/models/comic_detail.dart';
 import 'package:komikuy/services/komiku_scraper.dart';
@@ -7,6 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ComicProvider with ChangeNotifier {
   final KomikuScraper _scraper = KomikuScraper();
+
+  // Theme State
+  ThemeMode _themeMode = ThemeMode.system;
 
   // Home State
   List<Comic> _popularComics = [];
@@ -24,6 +27,8 @@ class ComicProvider with ChangeNotifier {
   List<Comic> _bookmarks = [];
 
   // Getters
+  ThemeMode get themeMode => _themeMode;
+
   List<Comic> get popularComics => _popularComics;
   List<Comic> get latestComics => _latestComics;
   bool get isLoadingHome => _isLoadingHome;
@@ -43,6 +48,12 @@ class ComicProvider with ChangeNotifier {
   Future<void> _loadStorage() async {
     final prefs = await SharedPreferences.getInstance();
 
+    // Load Theme
+    final themeIndex = prefs.getInt('theme_mode');
+    if (themeIndex != null) {
+      _themeMode = ThemeMode.values[themeIndex];
+    }
+
     // Load History
     final historyJson = prefs.getString('history');
     if (historyJson != null) {
@@ -57,6 +68,13 @@ class ComicProvider with ChangeNotifier {
       _bookmarks = decoded.map((e) => Comic.fromJson(e)).toList();
     }
     notifyListeners();
+  }
+
+  Future<void> toggleTheme(bool isDark) async {
+    _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+    notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('theme_mode', _themeMode.index);
   }
 
   Future<void> addToHistory(Comic comic) async {

@@ -17,35 +17,39 @@ class KomikuyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ComicProvider()),
       ],
-      child: MaterialApp(
-        title: 'Komikuy',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF0a63c2),
-            primary: const Color(0xFF0a63c2),
-            secondary: const Color(0xFF084a91),
-            surface: const Color(0xFFf5f7f8),
-            brightness: Brightness.light,
-          ),
-          textTheme: GoogleFonts.plusJakartaSansTextTheme(),
-          scaffoldBackgroundColor: const Color(0xFFf5f7f8),
-        ),
-        darkTheme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF0a63c2),
-            primary: const Color(0xFF0a63c2),
-            secondary: const Color(0xFF084a91),
-            surface: const Color(0xFF101922),
-            brightness: Brightness.dark,
-          ),
-          textTheme: GoogleFonts.plusJakartaSansTextTheme(ThemeData.dark().textTheme),
-          scaffoldBackgroundColor: const Color(0xFF101922),
-        ),
-        themeMode: ThemeMode.system,
-        home: const MainScreen(),
+      child: Consumer<ComicProvider>(
+        builder: (context, provider, child) {
+          return MaterialApp(
+            title: 'Komikuy',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              useMaterial3: true,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: const Color(0xFF0a63c2),
+                primary: const Color(0xFF0a63c2),
+                secondary: const Color(0xFF084a91),
+                surface: const Color(0xFFf5f7f8),
+                brightness: Brightness.light,
+              ),
+              textTheme: GoogleFonts.plusJakartaSansTextTheme(),
+              scaffoldBackgroundColor: const Color(0xFFf5f7f8),
+            ),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: const Color(0xFF0a63c2),
+                primary: const Color(0xFF0a63c2),
+                secondary: const Color(0xFF084a91),
+                surface: const Color(0xFF101922),
+                brightness: Brightness.dark,
+              ),
+              textTheme: GoogleFonts.plusJakartaSansTextTheme(ThemeData.dark().textTheme),
+              scaffoldBackgroundColor: const Color(0xFF101922),
+            ),
+            themeMode: provider.themeMode,
+            home: const MainScreen(),
+          );
+        },
       ),
     );
   }
