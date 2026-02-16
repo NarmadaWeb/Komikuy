@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:komikuy/providers/comic_provider.dart';
-import 'package:komikuy/screens/main_screen.dart';
+import 'package:komikuy/screens/splash_screen.dart';
 
 void main() {
   runApp(const KomikuyApp());
@@ -47,7 +47,7 @@ class KomikuyApp extends StatelessWidget {
               scaffoldBackgroundColor: const Color(0xFF101922),
             ),
             themeMode: provider.themeMode,
-            home: const MainScreen(),
+            home: const SplashScreen(),
           );
         },
       ),

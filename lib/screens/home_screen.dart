@@ -133,15 +133,6 @@ class _HomeScreenState extends State<HomeScreen> {
       centerTitle: false,
       title: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: const Text('K', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          ),
-          const SizedBox(width: 8),
           Text('Komikuy', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
         ],
       ),
