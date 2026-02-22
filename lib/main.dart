@@ -3,8 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:komikuy/providers/comic_provider.dart';
 import 'package:komikuy/screens/splash_screen.dart';
+import 'package:komikuy/services/ad_service.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  AdService().initialize();
   runApp(const KomikuyApp());
 }
 
