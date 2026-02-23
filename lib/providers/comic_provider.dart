@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:komikuy/models/chapter.dart';
 import 'package:komikuy/models/comic.dart';
 import 'package:komikuy/models/comic_detail.dart';
 import 'package:komikuy/services/komiku_scraper.dart';
@@ -77,10 +78,29 @@ class ComicProvider with ChangeNotifier {
     prefs.setInt('theme_mode', _themeMode.index);
   }
 
-  Future<void> addToHistory(Comic comic) async {
-    // Remove if exists to move to top
-    _history.removeWhere((c) => c.href == comic.href);
-    _history.insert(0, comic);
+  Future<void> addToHistory(Comic comic, {Chapter? chapter}) async {
+    // Check if it already exists to preserve previous reading state if not provided
+    final existingIndex = _history.indexWhere((c) => c.href == comic.href);
+    Comic newEntry = comic;
+
+    if (chapter != null) {
+      newEntry = comic.copyWith(
+        lastReadChapter: chapter.title,
+        lastReadChapterEndpoint: chapter.href,
+      );
+    } else if (existingIndex != -1) {
+      // Preserve existing reading progress if just updating position
+      final existing = _history[existingIndex];
+      newEntry = comic.copyWith(
+        lastReadChapter: existing.lastReadChapter,
+        lastReadChapterEndpoint: existing.lastReadChapterEndpoint,
+      );
+    }
+
+    if (existingIndex != -1) {
+      _history.removeAt(existingIndex);
+    }
+    _history.insert(0, newEntry);
     if (_history.length > 50) _history.removeLast(); // Limit history
 
     notifyListeners();

@@ -8,6 +8,8 @@ class Comic {
   final String? genre;
   final bool isColor;
   final String? rating; // For "Hot" section if available, or just use as is
+  final String? lastReadChapter;
+  final String? lastReadChapterEndpoint;
 
   Comic({
     required this.title,
@@ -19,6 +21,8 @@ class Comic {
     this.genre,
     this.isColor = false,
     this.rating,
+    this.lastReadChapter,
+    this.lastReadChapterEndpoint,
   });
 
   factory Comic.fromJson(Map<String, dynamic> json) {
@@ -32,6 +36,8 @@ class Comic {
       genre: json['genre'],
       isColor: json['isColor'] ?? false,
       rating: json['rating'],
+      lastReadChapter: json['lastReadChapter'],
+      lastReadChapterEndpoint: json['lastReadChapterEndpoint'],
     );
   }
 
@@ -46,6 +52,36 @@ class Comic {
       'genre': genre,
       'isColor': isColor,
       'rating': rating,
+      'lastReadChapter': lastReadChapter,
+      'lastReadChapterEndpoint': lastReadChapterEndpoint,
     };
+  }
+
+  Comic copyWith({
+    String? title,
+    String? href,
+    String? cover,
+    String? type,
+    String? latestChapter,
+    String? timeAgo,
+    String? genre,
+    bool? isColor,
+    String? rating,
+    String? lastReadChapter,
+    String? lastReadChapterEndpoint,
+  }) {
+    return Comic(
+      title: title ?? this.title,
+      href: href ?? this.href,
+      cover: cover ?? this.cover,
+      type: type ?? this.type,
+      latestChapter: latestChapter ?? this.latestChapter,
+      timeAgo: timeAgo ?? this.timeAgo,
+      genre: genre ?? this.genre,
+      isColor: isColor ?? this.isColor,
+      rating: rating ?? this.rating,
+      lastReadChapter: lastReadChapter ?? this.lastReadChapter,
+      lastReadChapterEndpoint: lastReadChapterEndpoint ?? this.lastReadChapterEndpoint,
+    );
   }
 }

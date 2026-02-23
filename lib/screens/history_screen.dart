@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:komikuy/providers/comic_provider.dart';
 import 'package:komikuy/screens/detail_screen.dart';
+import 'package:komikuy/screens/reader_screen.dart';
 import 'package:komikuy/widgets/comic_card.dart';
 import 'package:provider/provider.dart';
 
@@ -64,7 +65,47 @@ class HistoryScreen extends StatelessWidget {
                 child: ComicCard(
                   comic: comic,
                   isHorizontal: true,
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DetailScreen(url: comic.href))),
+                  showLastRead: true,
+                  onTap: () async {
+                    if (comic.lastReadChapterEndpoint != null) {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (ctx) => const Center(child: CircularProgressIndicator()),
+                      );
+
+                      try {
+                        final detail = await provider.getDetail(comic.href);
+                        final chapterIndex = detail.chapters.indexWhere((c) => c.href == comic.lastReadChapterEndpoint);
+
+                        if (context.mounted) {
+                          Navigator.pop(context); // Dismiss loading
+                          if (chapterIndex != -1) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ReaderScreen(
+                                  comic: comic,
+                                  chapters: detail.chapters,
+                                  initialChapter: detail.chapters[chapterIndex],
+                                ),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => DetailScreen(url: comic.href)));
+                          }
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          Navigator.pop(context); // Dismiss loading
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => DetailScreen(url: comic.href)));
+                        }
+                      }
+                    } else {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => DetailScreen(url: comic.href)));
+                    }
+                  },
                 ),
               );
             },
