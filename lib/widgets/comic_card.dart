@@ -6,12 +6,14 @@ import 'package:shimmer/shimmer.dart';
 class ComicCard extends StatelessWidget {
   final Comic comic;
   final bool isHorizontal; // For Latest updates (list view)
+  final bool showLastRead;
   final VoidCallback? onTap;
 
   const ComicCard({
     super.key,
     required this.comic,
     this.isHorizontal = false,
+    this.showLastRead = false,
     this.onTap,
   });
 
@@ -83,7 +85,25 @@ class ComicCard extends StatelessWidget {
                       ],
                     ),
                      const SizedBox(height: 4),
-                    if (comic.latestChapter.isNotEmpty)
+                    if (showLastRead && comic.lastReadChapter != null && comic.lastReadChapter!.isNotEmpty)
+                       Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiaryContainer,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          'Last: ${comic.lastReadChapter}',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Theme.of(context).colorScheme.tertiary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )
+                    else if (comic.latestChapter.isNotEmpty)
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(

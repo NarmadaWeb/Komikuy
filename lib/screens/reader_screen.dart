@@ -35,7 +35,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
     _imagesFuture = context.read<ComicProvider>().getChapterImages(_currentChapter.href);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        context.read<ComicProvider>().addToHistory(widget.comic);
+        context.read<ComicProvider>().addToHistory(widget.comic, chapter: _currentChapter);
       }
     });
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -46,7 +46,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
       _currentChapter = chapter;
       _imagesFuture = context.read<ComicProvider>().getChapterImages(_currentChapter.href);
     });
-    context.read<ComicProvider>().addToHistory(widget.comic);
+    context.read<ComicProvider>().addToHistory(widget.comic, chapter: _currentChapter);
   }
 
   @override
