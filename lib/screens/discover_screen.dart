@@ -53,7 +53,7 @@ class DiscoverScreen extends StatelessWidget {
                   final genre = genres[index];
                   return InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => SearchScreen(initialQuery: genre['name'].toString())));
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => SearchScreen(initialQuery: genre['name'].toString(), isGenre: true)));
                     },
                     borderRadius: BorderRadius.circular(16),
                     child: Container(

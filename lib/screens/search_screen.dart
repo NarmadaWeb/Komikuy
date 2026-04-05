@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   final String? initialQuery;
-  const SearchScreen({super.key, this.initialQuery});
+  final bool isGenre;
+  const SearchScreen({super.key, this.initialQuery, this.isGenre = false});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -32,7 +33,11 @@ class _SearchScreenState extends State<SearchScreen> {
   void _search() {
     final query = _controller.text.trim();
     if (query.isNotEmpty) {
-      context.read<ComicProvider>().search(query);
+      if (widget.isGenre) {
+        context.read<ComicProvider>().fetchComicsByGenre(query);
+      } else {
+        context.read<ComicProvider>().search(query);
+      }
     }
   }
 

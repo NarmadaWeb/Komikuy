@@ -171,6 +171,27 @@ class ComicProvider with ChangeNotifier {
     }
   }
 
+  Future<void> fetchComicsByGenre(String genre) async {
+    if (genre.isEmpty) {
+      _searchResults = [];
+      notifyListeners();
+      return;
+    }
+
+    _isSearching = true;
+    _searchError = '';
+    notifyListeners();
+
+    try {
+      _searchResults = await _scraper.getComicsByGenre(genre);
+    } catch (e) {
+      _searchError = e.toString();
+    } finally {
+      _isSearching = false;
+      notifyListeners();
+    }
+  }
+
   void clearSearch() {
     _searchResults = [];
     _searchError = '';
