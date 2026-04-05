@@ -1,0 +1,20 @@
+{
+  "@@locale": "id",
+  "settingsTitle": "Pengaturan",
+  "generalSection": "Umum",
+  "darkMode": "Mode Gelap",
+  "notifications": "Notifikasi",
+  "notificationsSubtitle": "Dapatkan pembaruan untuk perpustakaan Anda",
+  "language": "Bahasa",
+  "languageSubtitle": "Pilih bahasa aplikasi",
+  "storageSection": "Penyimpanan",
+  "clearCache": "Bersihkan Cache",
+  "clearCacheSubtitle": "Kosongkan ruang dengan membersihkan cache gambar",
+  "clearCacheConfirmTitle": "Bersihkan Cache",
+  "clearCacheConfirmMessage": "Apakah Anda yakin ingin membersihkan cache gambar?",
+  "clearCacheSuccessMessage": "Cache gambar berhasil dibersihkan",
+  "aboutSection": "Tentang",
+  "aboutKomikuy": "Tentang Komikuy",
+  "privacyPolicy": "Kebijakan Privasi",
+  "close": "Tutup"
+}

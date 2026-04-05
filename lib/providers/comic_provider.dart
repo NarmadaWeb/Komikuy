@@ -12,6 +12,9 @@ class ComicProvider with ChangeNotifier {
   // Theme State
   ThemeMode _themeMode = ThemeMode.system;
 
+  // Locale State
+  Locale? _locale;
+
   // Home State
   List<Comic> _popularComics = [];
   List<Comic> _latestComics = [];
@@ -29,6 +32,7 @@ class ComicProvider with ChangeNotifier {
 
   // Getters
   ThemeMode get themeMode => _themeMode;
+  Locale? get locale => _locale;
 
   List<Comic> get popularComics => _popularComics;
   List<Comic> get latestComics => _latestComics;
@@ -55,6 +59,12 @@ class ComicProvider with ChangeNotifier {
       _themeMode = ThemeMode.values[themeIndex];
     }
 
+    // Load Locale
+    final localeCode = prefs.getString('locale');
+    if (localeCode != null) {
+      _locale = Locale(localeCode);
+    }
+
     // Load History
     final historyJson = prefs.getString('history');
     if (historyJson != null) {
@@ -76,6 +86,13 @@ class ComicProvider with ChangeNotifier {
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
     prefs.setInt('theme_mode', _themeMode.index);
+  }
+
+  Future<void> setLocale(Locale locale) async {
+    _locale = locale;
+    notifyListeners();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('locale', locale.languageCode);
   }
 
   Future<void> addToHistory(Comic comic, {Chapter? chapter}) async {

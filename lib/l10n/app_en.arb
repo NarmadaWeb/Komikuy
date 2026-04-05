@@ -1,0 +1,20 @@
+{
+  "@@locale": "en",
+  "settingsTitle": "Settings",
+  "generalSection": "General",
+  "darkMode": "Dark Mode",
+  "notifications": "Notifications",
+  "notificationsSubtitle": "Get updates for your library",
+  "language": "Language",
+  "languageSubtitle": "Select application language",
+  "storageSection": "Storage",
+  "clearCache": "Clear Cache",
+  "clearCacheSubtitle": "Free up space by clearing image cache",
+  "clearCacheConfirmTitle": "Clear Cache",
+  "clearCacheConfirmMessage": "Are you sure you want to clear the image cache?",
+  "clearCacheSuccessMessage": "Image cache cleared successfully",
+  "aboutSection": "About",
+  "aboutKomikuy": "About Komikuy",
+  "privacyPolicy": "Privacy Policy",
+  "close": "Close"
+}

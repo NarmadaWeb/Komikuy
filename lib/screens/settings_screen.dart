@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:komikuy/providers/comic_provider.dart';
 import 'package:komikuy/widgets/app_alerts.dart';
 
@@ -8,18 +9,19 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(l10n.settingsTitle, style: const TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Consumer<ComicProvider>(
         builder: (context, provider, child) {
           return ListView(
             children: [
-              _buildSectionHeader('General'),
+              _buildSectionHeader(l10n.generalSection),
               ListTile(
                 leading: const Icon(Icons.dark_mode),
-                title: const Text('Dark Mode'),
+                title: Text(l10n.darkMode),
                 trailing: Switch(
                   value: provider.themeMode == ThemeMode.dark || (provider.themeMode == ThemeMode.system && MediaQuery.platformBrightnessOf(context) == Brightness.dark),
                   onChanged: (val) {
@@ -29,33 +31,57 @@ class SettingsScreen extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.notifications),
-                title: const Text('Notifications'),
-                subtitle: const Text('Get updates for your library'),
+                title: Text(l10n.notifications),
+                subtitle: Text(l10n.notificationsSubtitle),
                 trailing: Switch(value: true, onChanged: (val) {}),
               ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: Text(l10n.language),
+                subtitle: Text(l10n.languageSubtitle),
+                trailing: DropdownButton<String>(
+                  value: provider.locale?.languageCode ?? 'en',
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      provider.setLocale(Locale(newValue));
+                    }
+                  },
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'en',
+                      child: Text('English'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'id',
+                      child: Text('Bahasa Indonesia'),
+                    ),
+                  ],
+                  underline: const SizedBox(),
+                ),
+              ),
 
-              _buildSectionHeader('Storage'),
+              _buildSectionHeader(l10n.storageSection),
               ListTile(
                 leading: const Icon(Icons.delete_outline),
-                title: const Text('Clear Cache'),
-                subtitle: const Text('Free up space by clearing image cache'),
+                title: Text(l10n.clearCache),
+                subtitle: Text(l10n.clearCacheSubtitle),
                 onTap: () {
                   AppAlerts.showConfirm(
                     context,
-                    'Are you sure you want to clear the image cache?',
-                    title: 'Clear Cache',
+                    l10n.clearCacheConfirmMessage,
+                    title: l10n.clearCacheConfirmTitle,
                     onConfirm: () {
                       // In a real app we'd clear DefaultCacheManager here
-                      AppAlerts.showSuccess(context, 'Image cache cleared successfully');
+                      AppAlerts.showSuccess(context, l10n.clearCacheSuccessMessage);
                     }
                   );
                 },
               ),
 
-              _buildSectionHeader('About'),
+              _buildSectionHeader(l10n.aboutSection),
               ListTile(
                 leading: const Icon(Icons.info_outline),
-                title: const Text('About Komikuy'),
+                title: Text(l10n.aboutKomikuy),
                 subtitle: const Text('Version 1.0.0'),
                 onTap: () {
                   showAboutDialog(
@@ -72,12 +98,12 @@ class SettingsScreen extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.privacy_tip_outlined),
-                title: const Text('Privacy Policy'),
+                title: Text(l10n.privacyPolicy),
                 onTap: () {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: const Text('Privacy Policy'),
+                      title: Text(l10n.privacyPolicy),
                       content: const SingleChildScrollView(
                         child: Text(
                           'Privacy Policy for Komikuy\n\n'
@@ -91,7 +117,7 @@ class SettingsScreen extends StatelessWidget {
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text('Close'),
+                          child: Text(l10n.close),
                         ),
                       ],
                     ),
