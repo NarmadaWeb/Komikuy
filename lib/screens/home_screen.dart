@@ -240,7 +240,6 @@ class _HomeScreenState extends State<HomeScreen> {
           if (icon != null) const SizedBox(width: 8),
           Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const Spacer(),
-          const Icon(Icons.arrow_forward, size: 16, color: Colors.grey),
         ],
       ),
     );

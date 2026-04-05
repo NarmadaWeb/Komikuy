@@ -57,12 +57,46 @@ class SettingsScreen extends StatelessWidget {
                 leading: const Icon(Icons.info_outline),
                 title: const Text('About Komikuy'),
                 subtitle: const Text('Version 1.0.0'),
-                onTap: () {},
+                onTap: () {
+                  showAboutDialog(
+                    context: context,
+                    applicationName: 'Komikuy',
+                    applicationVersion: '1.0.0',
+                    applicationIcon: const Icon(Icons.book, size: 48, color: Colors.blue),
+                    children: const [
+                      SizedBox(height: 16),
+                      Text('Komikuy is a free comic reader app that allows you to read your favorite manga, manhwa, and manhua from komiku.org.'),
+                    ],
+                  );
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.privacy_tip_outlined),
                 title: const Text('Privacy Policy'),
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text('Privacy Policy'),
+                      content: const SingleChildScrollView(
+                        child: Text(
+                          'Privacy Policy for Komikuy\n\n'
+                          'This app is provided at no cost and is intended for use as is. '
+                          'We do not collect any personal data or usage analytics. '
+                          'All data such as history and bookmarks are stored locally on your device.\n\n'
+                          'The app fetches comic data and images directly from komiku.org. '
+                          'We are not affiliated with komiku.org in any way.'
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Close'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ],
           );

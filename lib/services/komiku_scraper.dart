@@ -204,6 +204,75 @@ class KomikuScraper {
     }
   }
 
+  Future<List<Comic>> getComicsByGenre(String genre) async {
+    final genreSlug = genre.toLowerCase();
+    List<Comic> results = [];
+
+    // Fetch at least two pages to ensure >= 25 items (20 items per page usually)
+    for (int page = 1; page <= 2; page++) {
+      final url = 'https://api.komiku.org/manga/page/$page/?genre=$genreSlug';
+      try {
+        final response = await http.get(Uri.parse(url));
+        if (response.statusCode != 200) {
+          if (page == 1) throw Exception('Failed to fetch genre');
+          break; // Stop if subsequent pages fail
+        }
+
+        var document = parse(response.body);
+        var articles = document.querySelectorAll('.bge');
+
+        for (var article in articles) {
+           try {
+              var titleEl = article.querySelector('.kan h3');
+              if (titleEl == null) continue;
+
+              var title = titleEl.text.trim();
+              var hrefEl = article.querySelector('.kan a');
+              var href = _fixUrl(hrefEl?.attributes['href'] ?? '');
+              var cover = _extractImage(article);
+
+              var typeEl = article.querySelector('.tpe1_inf b');
+              var type = typeEl?.text.trim() ?? 'Unknown';
+
+              var genreEl = article.querySelector('.tpe1_inf');
+              var genreText = genreEl?.text.replaceAll(type, '').trim() ?? '';
+
+              var latestChapter = '';
+              var newEls = article.querySelectorAll('.new1');
+              for (var newEl in newEls) {
+                 if (newEl.text.contains('Terbaru')) {
+                   latestChapter = newEl.querySelector('span:last-child')?.text.trim() ?? '';
+                 }
+              }
+              if (latestChapter.isEmpty && newEls.isNotEmpty) {
+                 latestChapter = newEls.last.querySelector('span:last-child')?.text.trim() ?? '';
+              }
+
+              var p = article.querySelector('.kan p');
+              var timeAgo = p?.text.trim() ?? '';
+
+              results.add(Comic(
+                  title: title,
+                  href: href,
+                  cover: cover,
+                  type: type,
+                  latestChapter: latestChapter,
+                  timeAgo: timeAgo,
+                  genre: genreText
+              ));
+
+           } catch (e) {
+               // print('Error parsing genre result: $e');
+           }
+        }
+      } catch (e) {
+        if (page == 1) rethrow;
+      }
+    }
+
+    return results;
+  }
+
   Future<ComicDetail> getComicDetail(String url) async {
     try {
       final response = await http.get(Uri.parse(url));
