@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:komikuy/providers/comic_provider.dart';
 import 'package:komikuy/screens/splash_screen.dart';
 import 'package:komikuy/services/ad_service.dart';
@@ -50,6 +52,17 @@ class KomikuyApp extends StatelessWidget {
               scaffoldBackgroundColor: const Color(0xFF101922),
             ),
             themeMode: provider.themeMode,
+            locale: provider.locale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+              Locale('id'),
+            ],
             home: const SplashScreen(),
           );
         },
