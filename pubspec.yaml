@@ -1,8 +1,8 @@
 name: komikuy
-description: A new Flutter project.
+description: Aplikasi Untuk Baca Komik.
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.1
 
 environment:
   sdk: ^3.0.0
