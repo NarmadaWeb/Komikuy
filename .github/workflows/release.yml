@@ -44,5 +44,4 @@ jobs:
             build/app/outputs/flutter-apk/komikuy-arm64-v8a-release.apk
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+
