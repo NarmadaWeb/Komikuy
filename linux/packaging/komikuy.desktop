@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Komikuy
+GenericName=Komikuy Comic Reader
+Comment=Aplikasi Untuk Baca Komik.
+Terminal=false
+Type=Application
+Categories=Utility;
+Keywords=comic;manga;reader;
+Icon=komikuy
+Exec=/opt/komikuy/komikuy
