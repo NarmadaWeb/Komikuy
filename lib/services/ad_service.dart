@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -13,7 +14,13 @@ class AdService {
   // Real Ad Unit ID as requested
   static const String _rewardedAdUnitId = 'ca-app-pub-3802258742710450/1527112033';
 
+  bool get _isSupportedPlatform {
+    if (kIsWeb) return false;
+    return Platform.isAndroid || Platform.isIOS;
+  }
+
   Future<void> initialize() async {
+    if (!_isSupportedPlatform) return;
     await MobileAds.instance.initialize();
   }
 
@@ -21,6 +28,11 @@ class AdService {
     required Function(RewardedAd) onAdLoaded,
     required Function(LoadAdError) onAdFailed,
   }) {
+    if (!_isSupportedPlatform) {
+      onAdFailed(LoadAdError(0, 'AdService', 'Ads not supported on this platform', null));
+      return;
+    }
+
     RewardedAd.load(
       adUnitId: _rewardedAdUnitId,
       request: const AdRequest(),
@@ -38,6 +50,11 @@ class AdService {
   }
 
   void showRewardedAd(RewardedAd ad, Function onAdDismissed) {
+    if (!_isSupportedPlatform) {
+      onAdDismissed();
+      return;
+    }
+
     ad.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (RewardedAd ad) =>
           debugPrint('$ad onAdShowedFullScreenContent.'),
