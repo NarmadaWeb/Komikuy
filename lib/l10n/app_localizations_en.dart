@@ -58,4 +58,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get close => 'Close';
+
+  @override
+  String get homeTab => 'Home';
+
+  @override
+  String get discoverTab => 'Discover';
+
+  @override
+  String get libraryTab => 'Library';
+
+  @override
+  String get historyTab => 'History';
+
+  @override
+  String get settingsTab => 'Settings';
+
+  @override
+  String get searchHint => 'Search comics...';
+
+  @override
+  String get popularComics => 'Popular Comics';
+
+  @override
+  String get latestUpdates => 'Latest Updates';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String get browseByGenre => 'Browse by Genre';
+
+  @override
+  String get emptyLibraryTitle => 'Your library is empty';
+
+  @override
+  String get emptyLibrarySubtitle => 'Bookmark comics to see them here';
+
+  @override
+  String get emptyHistoryTitle => 'No history yet';
+
+  @override
+  String get emptyHistorySubtitle => 'Start reading to build your history';
+
+  @override
+  String get clearHistory => 'Clear History';
+
+  @override
+  String get clearHistoryConfirm => 'Are you sure you want to clear your reading history?';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get readNow => 'Start Reading';
+
+  @override
+  String get latestUpdate => 'Latest Update';
+
+  @override
+  String get synopsis => 'Synopsis';
+
+  @override
+  String get chapters => 'Chapters';
 }
