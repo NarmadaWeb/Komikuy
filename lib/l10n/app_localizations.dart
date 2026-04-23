@@ -196,6 +196,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get close;
+
+  /// No description provided for @homeTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get homeTab;
+
+  /// No description provided for @discoverTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover'**
+  String get discoverTab;
+
+  /// No description provided for @libraryTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Library'**
+  String get libraryTab;
+
+  /// No description provided for @historyTab.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyTab;
+
+  /// No description provided for @settingsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTab;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search comics...'**
+  String get searchHint;
+
+  /// No description provided for @popularComics.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular Comics'**
+  String get popularComics;
+
+  /// No description provided for @latestUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest Updates'**
+  String get latestUpdates;
+
+  /// No description provided for @viewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// No description provided for @browseByGenre.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse by Genre'**
+  String get browseByGenre;
+
+  /// No description provided for @emptyLibraryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your library is empty'**
+  String get emptyLibraryTitle;
+
+  /// No description provided for @emptyLibrarySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmark comics to see them here'**
+  String get emptyLibrarySubtitle;
+
+  /// No description provided for @emptyHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No history yet'**
+  String get emptyHistoryTitle;
+
+  /// No description provided for @emptyHistorySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start reading to build your history'**
+  String get emptyHistorySubtitle;
+
+  /// No description provided for @clearHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear History'**
+  String get clearHistory;
+
+  /// No description provided for @clearHistoryConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to clear your reading history?'**
+  String get clearHistoryConfirm;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// No description provided for @readNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Reading'**
+  String get readNow;
+
+  /// No description provided for @latestUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest Update'**
+  String get latestUpdate;
+
+  /// No description provided for @synopsis.
+  ///
+  /// In en, this message translates to:
+  /// **'Synopsis'**
+  String get synopsis;
+
+  /// No description provided for @chapters.
+  ///
+  /// In en, this message translates to:
+  /// **'Chapters'**
+  String get chapters;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

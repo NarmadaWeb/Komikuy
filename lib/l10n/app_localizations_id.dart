@@ -58,4 +58,70 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get close => 'Tutup';
+
+  @override
+  String get homeTab => 'Beranda';
+
+  @override
+  String get discoverTab => 'Temukan';
+
+  @override
+  String get libraryTab => 'Pustaka';
+
+  @override
+  String get historyTab => 'Riwayat';
+
+  @override
+  String get settingsTab => 'Pengaturan';
+
+  @override
+  String get searchHint => 'Cari komik...';
+
+  @override
+  String get popularComics => 'Komik Populer';
+
+  @override
+  String get latestUpdates => 'Pembaruan Terbaru';
+
+  @override
+  String get viewAll => 'Lihat Semua';
+
+  @override
+  String get browseByGenre => 'Jelajahi Berdasarkan Genre';
+
+  @override
+  String get emptyLibraryTitle => 'Pustaka Anda kosong';
+
+  @override
+  String get emptyLibrarySubtitle => 'Tandai komik untuk melihatnya di sini';
+
+  @override
+  String get emptyHistoryTitle => 'Belum ada riwayat';
+
+  @override
+  String get emptyHistorySubtitle => 'Mulai membaca untuk membuat riwayat Anda';
+
+  @override
+  String get clearHistory => 'Bersihkan Riwayat';
+
+  @override
+  String get clearHistoryConfirm => 'Apakah Anda yakin ingin menghapus riwayat membaca Anda?';
+
+  @override
+  String get cancel => 'Batal';
+
+  @override
+  String get clear => 'Bersihkan';
+
+  @override
+  String get readNow => 'Mulai Membaca';
+
+  @override
+  String get latestUpdate => 'Pembaruan Terbaru';
+
+  @override
+  String get synopsis => 'Sinopsis';
+
+  @override
+  String get chapters => 'Bab';
 }
