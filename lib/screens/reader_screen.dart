@@ -61,6 +61,38 @@ class _ReaderScreenState extends State<ReaderScreen> {
     });
   }
 
+  void _showChaptersSheet() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.grey[900],
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (context) {
+        return ListView.builder(
+          itemCount: widget.chapters.length,
+          itemBuilder: (context, index) {
+            final chapter = widget.chapters[index];
+            final isCurrent = chapter.href == _currentChapter.href;
+            return ListTile(
+              title: Text(
+                chapter.title,
+                style: TextStyle(
+                  color: isCurrent ? Colors.blue : Colors.white,
+                  fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                _navigateToChapter(chapter);
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentIndex = widget.chapters.indexWhere((c) => c.href == _currentChapter.href);
@@ -171,7 +203,11 @@ class _ReaderScreenState extends State<ReaderScreen> {
                     icon: Icon(Icons.skip_previous, color: hasPrev ? Colors.white : Colors.grey),
                     label: Text('Prev', style: TextStyle(color: hasPrev ? Colors.white : Colors.grey)),
                   ),
-                   TextButton.icon(
+                  IconButton(
+                    onPressed: _showChaptersSheet,
+                    icon: const Icon(Icons.list, color: Colors.white),
+                  ),
+                  TextButton.icon(
                     onPressed: hasNext ? () {
                        _navigateToChapter(widget.chapters[currentIndex - 1]);
                     } : null,
