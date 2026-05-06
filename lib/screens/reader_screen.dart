@@ -32,10 +32,13 @@ class _ReaderScreenState extends State<ReaderScreen> {
   void initState() {
     super.initState();
     _currentChapter = widget.initialChapter;
-    _imagesFuture = context.read<ComicProvider>().getChapterImages(_currentChapter.href);
+    _imagesFuture =
+        context.read<ComicProvider>().getChapterImages(_currentChapter.href);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        context.read<ComicProvider>().addToHistory(widget.comic, chapter: _currentChapter);
+        context
+            .read<ComicProvider>()
+            .addToHistory(widget.comic, chapter: _currentChapter);
       }
     });
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -44,9 +47,12 @@ class _ReaderScreenState extends State<ReaderScreen> {
   void _navigateToChapter(Chapter chapter) {
     setState(() {
       _currentChapter = chapter;
-      _imagesFuture = context.read<ComicProvider>().getChapterImages(_currentChapter.href);
+      _imagesFuture =
+          context.read<ComicProvider>().getChapterImages(_currentChapter.href);
     });
-    context.read<ComicProvider>().addToHistory(widget.comic, chapter: _currentChapter);
+    context
+        .read<ComicProvider>()
+        .addToHistory(widget.comic, chapter: _currentChapter);
   }
 
   @override
@@ -95,7 +101,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = widget.chapters.indexWhere((c) => c.href == _currentChapter.href);
+    final currentIndex =
+        widget.chapters.indexWhere((c) => c.href == _currentChapter.href);
 
     // Assuming standard manga list order: Newest (Index 0) -> Oldest (Index N)
     // "Next" usually means reading forward in the story (e.g. Ch 1 -> Ch 2).
@@ -105,7 +112,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
     // Prev is index + 1.
 
     final hasNext = currentIndex > 0;
-    final hasPrev = currentIndex != -1 && currentIndex < widget.chapters.length - 1;
+    final hasPrev =
+        currentIndex != -1 && currentIndex < widget.chapters.length - 1;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -116,16 +124,21 @@ class _ReaderScreenState extends State<ReaderScreen> {
             onTap: _toggleUI,
             child: FutureBuilder<List<String>>(
               future: _imagesFuture,
-              key: ValueKey(_currentChapter.href), // Force rebuild on chapter change
+              key: ValueKey(
+                  _currentChapter.href), // Force rebuild on chapter change
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}', style: const TextStyle(color: Colors.white)));
+                  return Center(
+                      child: Text('Error: ${snapshot.error}',
+                          style: const TextStyle(color: Colors.white)));
                 }
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No images found', style: TextStyle(color: Colors.white)));
+                  return const Center(
+                      child: Text('No images found',
+                          style: TextStyle(color: Colors.white)));
                 }
 
                 final images = snapshot.data!;
@@ -134,6 +147,10 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   itemCount: images.length,
                   itemBuilder: (context, index) {
                     return CachedNetworkImage(
+                      httpHeaders: const {
+                        'User-Agent':
+                            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                      },
                       imageUrl: images[index],
                       fit: BoxFit.fitWidth,
                       width: double.infinity,
@@ -148,7 +165,9 @@ class _ReaderScreenState extends State<ReaderScreen> {
                       errorWidget: (context, url, error) => Container(
                         height: 200,
                         color: Colors.grey[900],
-                        child: const Center(child: Icon(Icons.broken_image, color: Colors.white)),
+                        child: const Center(
+                            child:
+                                Icon(Icons.broken_image, color: Colors.white)),
                       ),
                     );
                   },
@@ -171,13 +190,15 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () => Navigator.pop(context),
               ),
-              title: Text(_currentChapter.title, style: const TextStyle(color: Colors.white, fontSize: 16)),
+              title: Text(_currentChapter.title,
+                  style: const TextStyle(color: Colors.white, fontSize: 16)),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.bookmark_border),
                   onPressed: () {
                     context.read<ComicProvider>().toggleBookmark(widget.comic);
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Toggled Bookmark')));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Toggled Bookmark')));
                   },
                 ),
               ],
@@ -197,22 +218,34 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton.icon(
-                    onPressed: hasPrev ? () {
-                       _navigateToChapter(widget.chapters[currentIndex + 1]);
-                    } : null,
-                    icon: Icon(Icons.skip_previous, color: hasPrev ? Colors.white : Colors.grey),
-                    label: Text('Prev', style: TextStyle(color: hasPrev ? Colors.white : Colors.grey)),
+                    onPressed: hasPrev
+                        ? () {
+                            _navigateToChapter(
+                                widget.chapters[currentIndex + 1]);
+                          }
+                        : null,
+                    icon: Icon(Icons.skip_previous,
+                        color: hasPrev ? Colors.white : Colors.grey),
+                    label: Text('Prev',
+                        style: TextStyle(
+                            color: hasPrev ? Colors.white : Colors.grey)),
                   ),
                   IconButton(
                     onPressed: _showChaptersSheet,
                     icon: const Icon(Icons.list, color: Colors.white),
                   ),
                   TextButton.icon(
-                    onPressed: hasNext ? () {
-                       _navigateToChapter(widget.chapters[currentIndex - 1]);
-                    } : null,
-                    label: Text('Next', style: TextStyle(color: hasNext ? Colors.white : Colors.grey)),
-                    icon: Icon(Icons.skip_next, color: hasNext ? Colors.white : Colors.grey),
+                    onPressed: hasNext
+                        ? () {
+                            _navigateToChapter(
+                                widget.chapters[currentIndex - 1]);
+                          }
+                        : null,
+                    label: Text('Next',
+                        style: TextStyle(
+                            color: hasNext ? Colors.white : Colors.grey)),
+                    icon: Icon(Icons.skip_next,
+                        color: hasNext ? Colors.white : Colors.grey),
                   ),
                 ],
               ),

@@ -32,6 +32,10 @@ class ComicCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: CachedNetworkImage(
+                  httpHeaders: const {
+                    'User-Agent':
+                        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                  },
                   imageUrl: comic.cover,
                   width: 80,
                   height: 110,
@@ -39,7 +43,8 @@ class ComicCard extends StatelessWidget {
                   placeholder: (context, url) => Shimmer.fromColors(
                     baseColor: Colors.grey[300]!,
                     highlightColor: Colors.grey[100]!,
-                    child: Container(color: Colors.white, width: 80, height: 110),
+                    child:
+                        Container(color: Colors.white, width: 80, height: 110),
                   ),
                   errorWidget: (context, url, error) => Container(
                     width: 80,
@@ -76,20 +81,26 @@ class ComicCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        const Icon(Icons.access_time, size: 12, color: Colors.grey),
+                        const Icon(Icons.access_time,
+                            size: 12, color: Colors.grey),
                         const SizedBox(width: 4),
                         Text(
                           comic.timeAgo,
-                          style: const TextStyle(fontSize: 11, color: Colors.grey),
+                          style:
+                              const TextStyle(fontSize: 11, color: Colors.grey),
                         ),
                       ],
                     ),
-                     const SizedBox(height: 4),
-                    if (showLastRead && comic.lastReadChapter != null && comic.lastReadChapter!.isNotEmpty)
-                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    const SizedBox(height: 4),
+                    if (showLastRead &&
+                        comic.lastReadChapter != null &&
+                        comic.lastReadChapter!.isNotEmpty)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiaryContainer,
+                          color:
+                              Theme.of(context).colorScheme.tertiaryContainer,
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -105,7 +116,8 @@ class ComicCard extends StatelessWidget {
                       )
                     else if (comic.latestChapter.isNotEmpty)
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.primaryContainer,
                           borderRadius: BorderRadius.circular(4),
@@ -141,6 +153,10 @@ class ComicCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: CachedNetworkImage(
+                    httpHeaders: const {
+                      'User-Agent':
+                          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                    },
                     imageUrl: comic.cover,
                     width: double.infinity,
                     height: double.infinity,
@@ -161,49 +177,63 @@ class ComicCard extends StatelessWidget {
                     top: 8,
                     right: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
                         color: Colors.purple,
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      child: const Text('COLOR', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
+                      child: const Text('COLOR',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 8,
+                              fontWeight: FontWeight.bold)),
                     ),
                   ),
-                if (comic.rating != null && comic.rating!.isNotEmpty && comic.rating!.contains('Hot'))
-                   Positioned(
+                if (comic.rating != null &&
+                    comic.rating!.isNotEmpty &&
+                    comic.rating!.contains('Hot'))
+                  Positioned(
                     top: 8,
                     left: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
                         color: Colors.orange,
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      child: const Text('HOT', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)),
+                      child: const Text('HOT',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 8,
+                              fontWeight: FontWeight.bold)),
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [Colors.black87, Colors.transparent]
-                            ),
-                            borderRadius: BorderRadius.vertical(bottom: Radius.circular(12))
-                        ),
-                        child: Text(
-                             comic.latestChapter,
-                             style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600),
-                             maxLines: 1,
-                             overflow: TextOverflow.ellipsis,
-                        ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [Colors.black87, Colors.transparent]),
+                        borderRadius:
+                            BorderRadius.vertical(bottom: Radius.circular(12))),
+                    child: Text(
+                      comic.latestChapter,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  )
+                  ),
+                )
               ],
             ),
           ),
