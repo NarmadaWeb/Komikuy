@@ -56,15 +56,18 @@ class _HomeScreenState extends State<HomeScreen> {
               slivers: [
                 _buildAppBar(context),
                 if (provider.popularComics.isNotEmpty)
-                   SliverToBoxAdapter(
-                     child: Padding(
-                       padding: const EdgeInsets.only(top: 16, bottom: 8),
-                       child: _buildFeaturedCarousel(provider.popularComics.take(5).toList()),
-                     ),
-                   ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16, bottom: 8),
+                      child: _buildFeaturedCarousel(
+                          provider.popularComics.take(5).toList()),
+                    ),
+                  ),
                 if (provider.popularComics.length > 5) ...[
                   SliverToBoxAdapter(
-                    child: _buildSectionHeader('Hot Updates', icon: Icons.local_fire_department, color: Colors.orange),
+                    child: _buildSectionHeader('Hot Updates',
+                        icon: Icons.local_fire_department,
+                        color: Colors.orange),
                   ),
                   SliverToBoxAdapter(
                     child: SizedBox(
@@ -80,20 +83,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 130,
                             child: ComicCard(
                                 comic: comic,
-                                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DetailScreen(url: comic.href)))
-                            ),
+                                onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            DetailScreen(url: comic.href)))),
                           );
                         },
                       ),
                     ),
                   ),
                 ],
-
                 if (provider.latestComics.isNotEmpty) ...[
                   SliverToBoxAdapter(
-                    child: _buildSectionHeader('Latest Updates', icon: Icons.schedule, color: Colors.blue),
+                    child: _buildSectionHeader('Latest Updates',
+                        icon: Icons.schedule, color: Colors.blue),
                   ),
-
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     sliver: SliverList(
@@ -107,7 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               isHorizontal: true,
                               onTap: () => Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (_) => DetailScreen(url: comic.href)),
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        DetailScreen(url: comic.href)),
                               ),
                             ),
                           );
@@ -133,13 +140,17 @@ class _HomeScreenState extends State<HomeScreen> {
       centerTitle: false,
       title: Row(
         children: [
-          Text('Komikuy', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
+          Text('Komikuy',
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold)),
         ],
       ),
       actions: [
         IconButton(
           icon: const Icon(Icons.search),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SearchScreen())),
+          onPressed: () => Navigator.push(
+              context, MaterialPageRoute(builder: (_) => const SearchScreen())),
         ),
       ],
     );
@@ -154,13 +165,16 @@ class _HomeScreenState extends State<HomeScreen> {
             autoPlay: true,
             enlargeCenterPage: true,
             viewportFraction: 0.85,
-            aspectRatio: 16/9,
+            aspectRatio: 16 / 9,
           ),
           items: comics.map((comic) {
             return Builder(
               builder: (BuildContext context) {
                 return GestureDetector(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DetailScreen(url: comic.href))),
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => DetailScreen(url: comic.href))),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     margin: const EdgeInsets.symmetric(horizontal: 5.0),
@@ -173,9 +187,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(16.0),
                           child: CachedNetworkImage(
+                            httpHeaders: {
+                              'User-Agent':
+                                  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                            },
                             imageUrl: comic.cover,
                             fit: BoxFit.cover,
-                            placeholder: (context, url) => Container(color: Colors.grey[300]),
+                            placeholder: (context, url) =>
+                                Container(color: Colors.grey[300]),
                           ),
                         ),
                         Container(
@@ -184,7 +203,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             gradient: LinearGradient(
                               begin: Alignment.bottomCenter,
                               end: Alignment.topCenter,
-                              colors: [Colors.black.withValues(alpha: 0.8), Colors.transparent],
+                              colors: [
+                                Colors.black.withValues(alpha: 0.8),
+                                Colors.transparent
+                              ],
                             ),
                           ),
                         ),
@@ -197,7 +219,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Text(
                                 comic.title,
-                                style: const TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -205,14 +230,22 @@ class _HomeScreenState extends State<HomeScreen> {
                               Row(
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                    decoration: BoxDecoration(color: Colors.orange, borderRadius: BorderRadius.circular(4)),
-                                    child: const Text('HOT', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                        color: Colors.orange,
+                                        borderRadius: BorderRadius.circular(4)),
+                                    child: const Text('HOT',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold)),
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
                                     comic.latestChapter,
-                                    style: const TextStyle(color: Colors.white70, fontSize: 12),
+                                    style: const TextStyle(
+                                        color: Colors.white70, fontSize: 12),
                                   ),
                                 ],
                               ),
@@ -238,7 +271,9 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           if (icon != null) Icon(icon, color: color, size: 20),
           if (icon != null) const SizedBox(width: 8),
-          Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text(title,
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const Spacer(),
         ],
       ),

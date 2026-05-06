@@ -50,11 +50,15 @@ class _DetailScreenState extends State<DetailScreen> {
                 pinned: true,
                 actions: [
                   IconButton(
-                    icon: Icon(isBookmarked ? Icons.bookmark : Icons.bookmark_border),
+                    icon: Icon(
+                        isBookmarked ? Icons.bookmark : Icons.bookmark_border),
                     onPressed: () {
                       provider.toggleBookmark(comic);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(isBookmarked ? 'Removed from Library' : 'Added to Library')),
+                        SnackBar(
+                            content: Text(isBookmarked
+                                ? 'Removed from Library'
+                                : 'Added to Library')),
                       );
                     },
                   ),
@@ -68,10 +72,17 @@ class _DetailScreenState extends State<DetailScreen> {
                     fit: StackFit.expand,
                     children: [
                       CachedNetworkImage(
+                        httpHeaders: {
+                          'User-Agent':
+                              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                        },
                         imageUrl: detail.cover,
                         fit: BoxFit.cover,
-                        placeholder: (context, url) => Container(color: Colors.grey[300]),
-                        errorWidget: (context, url, error) => Container(color: Colors.grey, child: const Icon(Icons.broken_image)),
+                        placeholder: (context, url) =>
+                            Container(color: Colors.grey[300]),
+                        errorWidget: (context, url, error) => Container(
+                            color: Colors.grey,
+                            child: const Icon(Icons.broken_image)),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -94,14 +105,18 @@ class _DetailScreenState extends State<DetailScreen> {
                           children: [
                             if (detail.type.isNotEmpty)
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
                                 decoration: BoxDecoration(
                                   color: Theme.of(context).primaryColor,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
                                   detail.type.toUpperCase(),
-                                  style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             const SizedBox(height: 8),
@@ -118,17 +133,25 @@ class _DetailScreenState extends State<DetailScreen> {
                             const SizedBox(height: 8),
                             Row(
                               children: [
-                                const Icon(Icons.person, color: Colors.white70, size: 14),
+                                const Icon(Icons.person,
+                                    color: Colors.white70, size: 14),
                                 const SizedBox(width: 4),
-                                Expanded(child: Text(detail.author, style: const TextStyle(color: Colors.white70), overflow: TextOverflow.ellipsis)),
+                                Expanded(
+                                    child: Text(detail.author,
+                                        style: const TextStyle(
+                                            color: Colors.white70),
+                                        overflow: TextOverflow.ellipsis)),
                               ],
                             ),
-                             const SizedBox(height: 4),
-                             Row(
+                            const SizedBox(height: 4),
+                            Row(
                               children: [
-                                const Icon(Icons.info_outline, color: Colors.white70, size: 14),
+                                const Icon(Icons.info_outline,
+                                    color: Colors.white70, size: 14),
                                 const SizedBox(width: 4),
-                                Text(detail.status, style: const TextStyle(color: Colors.white70)),
+                                Text(detail.status,
+                                    style:
+                                        const TextStyle(color: Colors.white70)),
                               ],
                             ),
                           ],
@@ -154,33 +177,45 @@ class _DetailScreenState extends State<DetailScreen> {
                                   // Assuming chapters are Descending, so Last is First Chapter
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (_) => ReaderScreen(
-                                      initialChapter: detail.chapters.last,
-                                      chapters: detail.chapters,
-                                      comic: comic,
-                                    )),
+                                    MaterialPageRoute(
+                                        builder: (_) => ReaderScreen(
+                                              initialChapter:
+                                                  detail.chapters.last,
+                                              chapters: detail.chapters,
+                                              comic: comic,
+                                            )),
                                   );
                                 }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Theme.of(context).primaryColor,
                                 foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
                                 elevation: 4,
-                                shadowColor: Theme.of(context).primaryColor.withValues(alpha: 0.4),
+                                shadowColor: Theme.of(context)
+                                    .primaryColor
+                                    .withValues(alpha: 0.4),
                               ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Text('Start Reading', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+                                  const Text('Start Reading',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500)),
                                   const SizedBox(height: 2),
                                   Text(
-                                    detail.chapters.isNotEmpty ? detail.chapters.last.title : 'N/A',
-                                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis
-                                  ),
+                                      detail.chapters.isNotEmpty
+                                          ? detail.chapters.last.title
+                                          : 'N/A',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis),
                                 ],
                               ),
                             ),
@@ -190,29 +225,50 @@ class _DetailScreenState extends State<DetailScreen> {
                             child: OutlinedButton(
                               onPressed: () {
                                 if (detail.chapters.isNotEmpty) {
-                                   Navigator.push(
+                                  Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (_) => ReaderScreen(
-                                      initialChapter: detail.chapters.first,
-                                      chapters: detail.chapters,
-                                      comic: comic,
-                                    )),
+                                    MaterialPageRoute(
+                                        builder: (_) => ReaderScreen(
+                                              initialChapter:
+                                                  detail.chapters.first,
+                                              chapters: detail.chapters,
+                                              comic: comic,
+                                            )),
                                   );
                                 }
                               },
                               style: OutlinedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                side: BorderSide(color: Theme.of(context).primaryColor.withValues(alpha: 0.5)),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                side: BorderSide(
+                                    color: Theme.of(context)
+                                        .primaryColor
+                                        .withValues(alpha: 0.5)),
                               ),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text('Latest Update', style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodySmall?.color)),
+                                  Text('Latest Update',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall
+                                              ?.color)),
                                   const SizedBox(height: 2),
                                   Text(
-                                    detail.chapters.isNotEmpty ? detail.chapters.first.title : 'N/A',
-                                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Theme.of(context).textTheme.bodyLarge?.color),
+                                    detail.chapters.isNotEmpty
+                                        ? detail.chapters.first.title
+                                        : 'N/A',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge
+                                            ?.color),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -223,18 +279,32 @@ class _DetailScreenState extends State<DetailScreen> {
                         ],
                       ),
                       const SizedBox(height: 24),
-                      const Text('Synopsis', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      const Text('Synopsis',
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 8),
                       Text(
-                        detail.description.isNotEmpty ? detail.description : 'No synopsis available.',
-                        style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.8), height: 1.5),
+                        detail.description.isNotEmpty
+                            ? detail.description
+                            : 'No synopsis available.',
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.color
+                                ?.withValues(alpha: 0.8),
+                            height: 1.5),
                       ),
                       const SizedBox(height: 24),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                           const Text('Chapters', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                           Text('${detail.chapters.length} Chapters', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                          const Text('Chapters',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text('${detail.chapters.length} Chapters',
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.grey)),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -250,30 +320,39 @@ class _DetailScreenState extends State<DetailScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => ReaderScreen(
-                            initialChapter: chapter,
-                            chapters: detail.chapters,
-                            comic: comic,
-                          )),
+                          MaterialPageRoute(
+                              builder: (_) => ReaderScreen(
+                                    initialChapter: chapter,
+                                    chapters: detail.chapters,
+                                    comic: comic,
+                                  )),
                         );
                       },
                       leading: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest,
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Icon(Icons.menu_book, color: Theme.of(context).primaryColor, size: 20),
+                        child: Icon(Icons.menu_book,
+                            color: Theme.of(context).primaryColor, size: 20),
                       ),
-                      title: Text(chapter.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                      subtitle: Text(chapter.date, style: const TextStyle(fontSize: 12, color: Colors.grey)),
-                      trailing: const Icon(Icons.chevron_right, size: 16, color: Colors.grey),
+                      title: Text(chapter.title,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14)),
+                      subtitle: Text(chapter.date,
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.grey)),
+                      trailing: const Icon(Icons.chevron_right,
+                          size: 16, color: Colors.grey),
                     );
                   },
                   childCount: detail.chapters.length,
                 ),
               ),
-               const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
+              const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
             ],
           );
         },

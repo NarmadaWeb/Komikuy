@@ -40,7 +40,10 @@ class KomikuScraper {
 
   Future<Map<String, List<Comic>>> getHomeData() async {
     try {
-      final response = await http.get(Uri.parse(baseUrl));
+      final response = await http.get(Uri.parse(baseUrl), headers: {
+        'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      });
       if (response.statusCode != 200) {
         throw Exception('Failed to load home page');
       }
@@ -88,17 +91,18 @@ class KomikuScraper {
           var cover = _extractImage(article);
 
           var infoEl = article.querySelector('.ls4s');
-          var infoText = infoEl?.text.trim() ?? ''; // "Manhwa Fantasi 3 jam lalu"
+          var infoText =
+              infoEl?.text.trim() ?? ''; // "Manhwa Fantasi 3 jam lalu"
 
           var type = 'Manga';
           if (infoText.toLowerCase().contains('manhwa')) type = 'Manhwa';
           if (infoText.toLowerCase().contains('manhua')) type = 'Manhua';
 
           var timeAgo = '';
-           var parts = infoText.split(' ');
-           if (parts.length > 2) {
-             timeAgo = parts.sublist(parts.length - 3).join(' ');
-           }
+          var parts = infoText.split(' ');
+          if (parts.length > 2) {
+            timeAgo = parts.sublist(parts.length - 3).join(' ');
+          }
 
           var chapterEl = article.querySelector('.ls24');
           var latestChapter = chapterEl?.text.trim() ?? '';
@@ -110,17 +114,16 @@ class KomikuScraper {
           var isColor = colorEl != null;
 
           latestComics.add(Comic(
-            title: title,
-            href: href,
-            cover: cover,
-            type: type,
-            latestChapter: latestChapter,
-            timeAgo: timeAgo.isNotEmpty ? timeAgo : infoText,
-            isColor: isColor,
-            rating: upCount
-          ));
+              title: title,
+              href: href,
+              cover: cover,
+              type: type,
+              latestChapter: latestChapter,
+              timeAgo: timeAgo.isNotEmpty ? timeAgo : infoText,
+              isColor: isColor,
+              rating: upCount));
         } catch (e) {
-            // print('Error parsing latest comic: $e');
+          // print('Error parsing latest comic: $e');
         }
       }
 
@@ -128,7 +131,6 @@ class KomikuScraper {
         'popular': popularComics,
         'latest': latestComics,
       };
-
     } catch (e) {
       // print('Error fetching home data: $e');
       rethrow;
@@ -139,8 +141,11 @@ class KomikuScraper {
     // Use the API endpoint for search
     final url = 'https://api.komiku.org/?s=$query&post_type=manga';
     try {
-      final response = await http.get(Uri.parse(url));
-       if (response.statusCode != 200) {
+      final response = await http.get(Uri.parse(url), headers: {
+        'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      });
+      if (response.statusCode != 200) {
         throw Exception('Failed to search');
       }
 
@@ -150,54 +155,53 @@ class KomikuScraper {
       var articles = document.querySelectorAll('.bge');
 
       for (var article in articles) {
-         try {
-            var titleEl = article.querySelector('.kan h3');
-            if (titleEl == null) continue;
+        try {
+          var titleEl = article.querySelector('.kan h3');
+          if (titleEl == null) continue;
 
-            var title = titleEl.text.trim();
-            var hrefEl = article.querySelector('.kan a');
-            var href = _fixUrl(hrefEl?.attributes['href'] ?? '');
-            var cover = _extractImage(article);
+          var title = titleEl.text.trim();
+          var hrefEl = article.querySelector('.kan a');
+          var href = _fixUrl(hrefEl?.attributes['href'] ?? '');
+          var cover = _extractImage(article);
 
-            var typeEl = article.querySelector('.tpe1_inf b');
-            var type = typeEl?.text.trim() ?? 'Unknown';
+          var typeEl = article.querySelector('.tpe1_inf b');
+          var type = typeEl?.text.trim() ?? 'Unknown';
 
-            var genreEl = article.querySelector('.tpe1_inf');
-            var genre = genreEl?.text.replaceAll(type, '').trim() ?? '';
+          var genreEl = article.querySelector('.tpe1_inf');
+          var genre = genreEl?.text.replaceAll(type, '').trim() ?? '';
 
-            var latestChapter = '';
-            // Look for "Terbaru"
-            var newEls = article.querySelectorAll('.new1');
-            for (var newEl in newEls) {
-               if (newEl.text.contains('Terbaru')) {
-                 latestChapter = newEl.querySelector('span:last-child')?.text.trim() ?? '';
-               }
+          var latestChapter = '';
+          // Look for "Terbaru"
+          var newEls = article.querySelectorAll('.new1');
+          for (var newEl in newEls) {
+            if (newEl.text.contains('Terbaru')) {
+              latestChapter =
+                  newEl.querySelector('span:last-child')?.text.trim() ?? '';
             }
-            if (latestChapter.isEmpty && newEls.isNotEmpty) {
-               // Fallback to last one
-               latestChapter = newEls.last.querySelector('span:last-child')?.text.trim() ?? '';
-            }
+          }
+          if (latestChapter.isEmpty && newEls.isNotEmpty) {
+            // Fallback to last one
+            latestChapter =
+                newEls.last.querySelector('span:last-child')?.text.trim() ?? '';
+          }
 
-            var p = article.querySelector('.kan p');
-            var timeAgo = p?.text.trim() ?? '';
+          var p = article.querySelector('.kan p');
+          var timeAgo = p?.text.trim() ?? '';
 
-            results.add(Comic(
-                title: title,
-                href: href,
-                cover: cover,
-                type: type,
-                latestChapter: latestChapter,
-                timeAgo: timeAgo,
-                genre: genre
-            ));
-
-         } catch (e) {
-             // print('Error parsing search result: $e');
-         }
+          results.add(Comic(
+              title: title,
+              href: href,
+              cover: cover,
+              type: type,
+              latestChapter: latestChapter,
+              timeAgo: timeAgo,
+              genre: genre));
+        } catch (e) {
+          // print('Error parsing search result: $e');
+        }
       }
 
       return results;
-
     } catch (e) {
       // print('Error searching: $e');
       rethrow;
@@ -212,7 +216,10 @@ class KomikuScraper {
     for (int page = 1; page <= 2; page++) {
       final url = 'https://api.komiku.org/manga/page/$page/?genre=$genreSlug';
       try {
-        final response = await http.get(Uri.parse(url));
+        final response = await http.get(Uri.parse(url), headers: {
+          'User-Agent':
+              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        });
         if (response.statusCode != 200) {
           if (page == 1) throw Exception('Failed to fetch genre');
           break; // Stop if subsequent pages fail
@@ -222,48 +229,49 @@ class KomikuScraper {
         var articles = document.querySelectorAll('.bge');
 
         for (var article in articles) {
-           try {
-              var titleEl = article.querySelector('.kan h3');
-              if (titleEl == null) continue;
+          try {
+            var titleEl = article.querySelector('.kan h3');
+            if (titleEl == null) continue;
 
-              var title = titleEl.text.trim();
-              var hrefEl = article.querySelector('.kan a');
-              var href = _fixUrl(hrefEl?.attributes['href'] ?? '');
-              var cover = _extractImage(article);
+            var title = titleEl.text.trim();
+            var hrefEl = article.querySelector('.kan a');
+            var href = _fixUrl(hrefEl?.attributes['href'] ?? '');
+            var cover = _extractImage(article);
 
-              var typeEl = article.querySelector('.tpe1_inf b');
-              var type = typeEl?.text.trim() ?? 'Unknown';
+            var typeEl = article.querySelector('.tpe1_inf b');
+            var type = typeEl?.text.trim() ?? 'Unknown';
 
-              var genreEl = article.querySelector('.tpe1_inf');
-              var genreText = genreEl?.text.replaceAll(type, '').trim() ?? '';
+            var genreEl = article.querySelector('.tpe1_inf');
+            var genreText = genreEl?.text.replaceAll(type, '').trim() ?? '';
 
-              var latestChapter = '';
-              var newEls = article.querySelectorAll('.new1');
-              for (var newEl in newEls) {
-                 if (newEl.text.contains('Terbaru')) {
-                   latestChapter = newEl.querySelector('span:last-child')?.text.trim() ?? '';
-                 }
+            var latestChapter = '';
+            var newEls = article.querySelectorAll('.new1');
+            for (var newEl in newEls) {
+              if (newEl.text.contains('Terbaru')) {
+                latestChapter =
+                    newEl.querySelector('span:last-child')?.text.trim() ?? '';
               }
-              if (latestChapter.isEmpty && newEls.isNotEmpty) {
-                 latestChapter = newEls.last.querySelector('span:last-child')?.text.trim() ?? '';
-              }
+            }
+            if (latestChapter.isEmpty && newEls.isNotEmpty) {
+              latestChapter =
+                  newEls.last.querySelector('span:last-child')?.text.trim() ??
+                      '';
+            }
 
-              var p = article.querySelector('.kan p');
-              var timeAgo = p?.text.trim() ?? '';
+            var p = article.querySelector('.kan p');
+            var timeAgo = p?.text.trim() ?? '';
 
-              results.add(Comic(
-                  title: title,
-                  href: href,
-                  cover: cover,
-                  type: type,
-                  latestChapter: latestChapter,
-                  timeAgo: timeAgo,
-                  genre: genreText
-              ));
-
-           } catch (e) {
-               // print('Error parsing genre result: $e');
-           }
+            results.add(Comic(
+                title: title,
+                href: href,
+                cover: cover,
+                type: type,
+                latestChapter: latestChapter,
+                timeAgo: timeAgo,
+                genre: genreText));
+          } catch (e) {
+            // print('Error parsing genre result: $e');
+          }
         }
       } catch (e) {
         if (page == 1) rethrow;
@@ -275,7 +283,10 @@ class KomikuScraper {
 
   Future<ComicDetail> getComicDetail(String url) async {
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url), headers: {
+        'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      });
       if (response.statusCode != 200) {
         throw Exception('Failed to load detail page');
       }
@@ -287,7 +298,7 @@ class KomikuScraper {
       var coverEl = document.querySelector('.ims img');
       var cover = '';
       if (coverEl != null) {
-         cover = _extractImage(coverEl);
+        cover = _extractImage(coverEl);
       }
 
       // Info Table
@@ -312,47 +323,42 @@ class KomikuScraper {
       var desc = '';
       var descEls = document.querySelectorAll('#Judul p');
       for (var p in descEls) {
-          if (p.className != 'j2' && p.text.length > 30) {
-              desc = p.text.trim();
-              break; // Take the first long paragraph
-          }
+        if (p.className != 'j2' && p.text.length > 30) {
+          desc = p.text.trim();
+          break; // Take the first long paragraph
+        }
       }
 
       // Chapters
       List<Chapter> chapters = [];
       var chapterRows = document.querySelectorAll('#Daftar_Chapter tbody tr');
       for (var row in chapterRows) {
-         var titleCell = row.querySelector('.judulseries a');
-         if (titleCell != null) {
-            var chTitle = titleCell.querySelector('span')?.text.trim() ?? titleCell.text.trim();
-            var chHref = _fixUrl(titleCell.attributes['href'] ?? '');
+        var titleCell = row.querySelector('.judulseries a');
+        if (titleCell != null) {
+          var chTitle = titleCell.querySelector('span')?.text.trim() ??
+              titleCell.text.trim();
+          var chHref = _fixUrl(titleCell.attributes['href'] ?? '');
 
-            var dateCell = row.querySelector('.tanggalseries');
-            var date = dateCell?.text.trim() ?? '';
+          var dateCell = row.querySelector('.tanggalseries');
+          var date = dateCell?.text.trim() ?? '';
 
-            var viewCell = row.querySelector('.pembaca i');
-            var views = viewCell?.text.trim() ?? '';
+          var viewCell = row.querySelector('.pembaca i');
+          var views = viewCell?.text.trim() ?? '';
 
-            chapters.add(Chapter(
-                title: chTitle,
-                href: chHref,
-                date: date,
-                views: views
-            ));
-         }
+          chapters.add(
+              Chapter(title: chTitle, href: chHref, date: date, views: views));
+        }
       }
 
       return ComicDetail(
-        title: title,
-        cover: cover,
-        type: type,
-        description: desc,
-        author: author,
-        status: status,
-        rating: rating,
-        chapters: chapters
-      );
-
+          title: title,
+          cover: cover,
+          type: type,
+          description: desc,
+          author: author,
+          status: status,
+          rating: rating,
+          chapters: chapters);
     } catch (e) {
       // print('Error fetching detail: $e');
       rethrow;
@@ -361,7 +367,10 @@ class KomikuScraper {
 
   Future<List<String>> getChapterImages(String url) async {
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url), headers: {
+        'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      });
       if (response.statusCode != 200) {
         throw Exception('Failed to load chapter page');
       }
@@ -370,16 +379,15 @@ class KomikuScraper {
       List<String> images = [];
       var imgContainer = document.querySelector('#Baca_Komik');
       if (imgContainer != null) {
-          var imgs = imgContainer.querySelectorAll('img');
-          for (var img in imgs) {
-              var src = _extractImage(img);
-              if (src.isNotEmpty) {
-                  images.add(src);
-              }
+        var imgs = imgContainer.querySelectorAll('img');
+        for (var img in imgs) {
+          var src = _extractImage(img);
+          if (src.isNotEmpty) {
+            images.add(src);
           }
+        }
       }
       return images;
-
     } catch (e) {
       // print('Error fetching chapter images: $e');
       rethrow;
