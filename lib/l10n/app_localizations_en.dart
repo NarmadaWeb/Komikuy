@@ -124,4 +124,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chapters => 'Chapters';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get noResultsFound => 'No results found';
+
+  @override
+  String get findFavoriteComics => 'Find your favorite comics';
+
+  @override
+  String get noImagesFound => 'No images found';
+
+  @override
+  String get prev => 'Prev';
+
+  @override
+  String get next => 'Next';
+
+  @override
+  String get toggledBookmark => 'Toggled Bookmark';
+
+  @override
+  String get addedToBookmark => 'Added to Bookmarks';
+
+  @override
+  String get removedFromBookmark => 'Removed from Bookmarks';
+
+  @override
+  String get noDataFound => 'No data found';
+
+  @override
+  String get deleteSelected => 'Delete Selected';
+
+  @override
+  String get deleteSelectedConfirm => 'Are you sure you want to delete selected history items?';
+
+  @override
+  String get delete => 'Delete';
 }

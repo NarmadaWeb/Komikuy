@@ -124,4 +124,43 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get chapters => 'Bab';
+
+  @override
+  String get retry => 'Coba Lagi';
+
+  @override
+  String get noResultsFound => 'Tidak ada hasil yang ditemukan';
+
+  @override
+  String get findFavoriteComics => 'Temukan komik favorit Anda';
+
+  @override
+  String get noImagesFound => 'Gambar tidak ditemukan';
+
+  @override
+  String get prev => 'Sblm';
+
+  @override
+  String get next => 'Lanjut';
+
+  @override
+  String get toggledBookmark => 'Bookmark diubah';
+
+  @override
+  String get addedToBookmark => 'Ditambahkan ke Bookmark';
+
+  @override
+  String get removedFromBookmark => 'Dihapus dari Bookmark';
+
+  @override
+  String get noDataFound => 'Data tidak ditemukan';
+
+  @override
+  String get deleteSelected => 'Hapus yang Dipilih';
+
+  @override
+  String get deleteSelectedConfirm => 'Apakah Anda yakin ingin menghapus riwayat yang dipilih?';
+
+  @override
+  String get delete => 'Hapus';
 }

@@ -1,3 +1,4 @@
+import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:komikuy/models/comic_detail.dart';
@@ -29,13 +30,13 @@ class _DetailScreenState extends State<DetailScreen> {
         future: _detailFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData) {
-            return const Center(child: Text('No data found'));
+            return Center(child: Text(AppLocalizations.of(context)!.noDataFound));
           }
 
           final detail = snapshot.data!;
@@ -113,7 +114,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ),
                                 child: Text(
                                   detail.type.toUpperCase(),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold),
@@ -122,7 +123,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             const SizedBox(height: 8),
                             Text(
                               detail.title,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -138,7 +139,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 const SizedBox(width: 4),
                                 Expanded(
                                     child: Text(detail.author,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             color: Colors.white70),
                                         overflow: TextOverflow.ellipsis)),
                               ],
@@ -151,7 +152,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 const SizedBox(width: 4),
                                 Text(detail.status,
                                     style:
-                                        const TextStyle(color: Colors.white70)),
+                                        TextStyle(color: Colors.white70)),
                               ],
                             ),
                           ],
@@ -202,7 +203,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Text('Start Reading',
+                                  Text(AppLocalizations.of(context)!.readNow,
                                       style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w500)),
@@ -211,7 +212,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       detail.chapters.isNotEmpty
                                           ? detail.chapters.last.title
                                           : 'N/A',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14),
                                       maxLines: 1,
@@ -250,7 +251,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text('Latest Update',
+                                  Text(AppLocalizations.of(context)!.latestUpdate,
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: Theme.of(context)
@@ -279,7 +280,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ],
                       ),
                       const SizedBox(height: 24),
-                      const Text('Synopsis',
+                      Text(AppLocalizations.of(context)!.synopsis,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 8),
@@ -299,11 +300,11 @@ class _DetailScreenState extends State<DetailScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Chapters',
+                          Text(AppLocalizations.of(context)!.chapters,
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
                           Text('${detail.chapters.length} Chapters',
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 12, color: Colors.grey)),
                         ],
                       ),
@@ -340,10 +341,10 @@ class _DetailScreenState extends State<DetailScreen> {
                             color: Theme.of(context).primaryColor, size: 20),
                       ),
                       title: Text(chapter.title,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 14)),
                       subtitle: Text(chapter.date,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 12, color: Colors.grey)),
                       trailing: const Icon(Icons.chevron_right,
                           size: 16, color: Colors.grey),

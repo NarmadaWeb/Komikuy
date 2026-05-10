@@ -1,3 +1,4 @@
+import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -128,7 +129,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   _currentChapter.href), // Force rebuild on chapter change
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
                   return Center(
@@ -136,8 +137,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                           style: const TextStyle(color: Colors.white)));
                 }
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(
-                      child: Text('No images found',
+                  return Center(
+                      child: Text(AppLocalizations.of(context)!.noImagesFound,
                           style: TextStyle(color: Colors.white)));
                 }
 
@@ -165,7 +166,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                       errorWidget: (context, url, error) => Container(
                         height: 200,
                         color: Colors.grey[900],
-                        child: const Center(
+                        child: Center(
                             child:
                                 Icon(Icons.broken_image, color: Colors.white)),
                       ),
@@ -198,7 +199,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   onPressed: () {
                     context.read<ComicProvider>().toggleBookmark(widget.comic);
                     ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Toggled Bookmark')));
+                        SnackBar(content: Text(AppLocalizations.of(context)!.toggledBookmark)));
                   },
                 ),
               ],
@@ -226,7 +227,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                         : null,
                     icon: Icon(Icons.skip_previous,
                         color: hasPrev ? Colors.white : Colors.grey),
-                    label: Text('Prev',
+                    label: Text(AppLocalizations.of(context)!.prev,
                         style: TextStyle(
                             color: hasPrev ? Colors.white : Colors.grey)),
                   ),
@@ -241,7 +242,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                                 widget.chapters[currentIndex - 1]);
                           }
                         : null,
-                    label: Text('Next',
+                    label: Text(AppLocalizations.of(context)!.next,
                         style: TextStyle(
                             color: hasNext ? Colors.white : Colors.grey)),
                     icon: Icon(Icons.skip_next,

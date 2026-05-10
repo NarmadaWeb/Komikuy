@@ -1,3 +1,4 @@
+import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:komikuy/providers/comic_provider.dart';
 import 'package:komikuy/screens/detail_screen.dart';
@@ -11,20 +12,20 @@ class LibraryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Library', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(AppLocalizations.of(context)!.libraryTab, style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Consumer<ComicProvider>(
         builder: (context, provider, child) {
           if (provider.bookmarks.isEmpty) {
-            return const Center(
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.collections_bookmark_outlined, size: 64, color: Colors.grey),
                   SizedBox(height: 16),
-                  Text('Your library is empty', style: TextStyle(color: Colors.grey)),
+                  Text(AppLocalizations.of(context)!.emptyLibraryTitle, style: TextStyle(color: Colors.grey)),
                   SizedBox(height: 8),
-                  Text('Bookmark comics to see them here', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                  Text(AppLocalizations.of(context)!.emptyLibrarySubtitle, style: TextStyle(color: Colors.grey, fontSize: 12)),
                 ],
               ),
             );

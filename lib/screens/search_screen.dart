@@ -1,3 +1,4 @@
+import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:komikuy/providers/comic_provider.dart';
 import 'package:komikuy/screens/detail_screen.dart';
@@ -67,7 +68,7 @@ class _SearchScreenState extends State<SearchScreen> {
       body: Consumer<ComicProvider>(
         builder: (context, provider, child) {
           if (provider.isSearching) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           }
 
           if (provider.searchError.isNotEmpty) {
@@ -76,15 +77,15 @@ class _SearchScreenState extends State<SearchScreen> {
 
           if (provider.searchResults.isEmpty) {
             if (_controller.text.isNotEmpty) {
-               return const Center(child: Text('No results found'));
+               return Center(child: Text(AppLocalizations.of(context)!.noResultsFound));
             }
-            return const Center(
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                    Icon(Icons.search, size: 64, color: Colors.grey),
                    SizedBox(height: 16),
-                   Text('Find your favorite comics', style: TextStyle(color: Colors.grey)),
+                   Text(AppLocalizations.of(context)!.findFavoriteComics, style: TextStyle(color: Colors.grey)),
                 ],
               ),
             );

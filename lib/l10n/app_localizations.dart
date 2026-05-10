@@ -328,6 +328,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Chapters'**
   String get chapters;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @noResultsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get noResultsFound;
+
+  /// No description provided for @findFavoriteComics.
+  ///
+  /// In en, this message translates to:
+  /// **'Find your favorite comics'**
+  String get findFavoriteComics;
+
+  /// No description provided for @noImagesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No images found'**
+  String get noImagesFound;
+
+  /// No description provided for @prev.
+  ///
+  /// In en, this message translates to:
+  /// **'Prev'**
+  String get prev;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
+
+  /// No description provided for @toggledBookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggled Bookmark'**
+  String get toggledBookmark;
+
+  /// No description provided for @addedToBookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to Bookmarks'**
+  String get addedToBookmark;
+
+  /// No description provided for @removedFromBookmark.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from Bookmarks'**
+  String get removedFromBookmark;
+
+  /// No description provided for @noDataFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No data found'**
+  String get noDataFound;
+
+  /// No description provided for @deleteSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Selected'**
+  String get deleteSelected;
+
+  /// No description provided for @deleteSelectedConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete selected history items?'**
+  String get deleteSelectedConfirm;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

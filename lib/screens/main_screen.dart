@@ -1,3 +1,4 @@
+import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:komikuy/screens/home_screen.dart';
 import 'package:komikuy/screens/discover_screen.dart';
@@ -15,7 +16,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = const [
+  final List<Widget> _screens = [
     HomeScreen(),
     DiscoverScreen(),
     LibraryScreen(),
@@ -39,31 +40,31 @@ class _MainScreenState extends State<MainScreen> {
                     });
                   },
                   labelType: NavigationRailLabelType.all,
-                  destinations: const [
+                  destinations: [
                     NavigationRailDestination(
                       icon: Icon(Icons.home_outlined),
                       selectedIcon: Icon(Icons.home),
-                      label: Text('Home'),
+                      label: Text(AppLocalizations.of(context)!.homeTab),
                     ),
                     NavigationRailDestination(
                       icon: Icon(Icons.explore_outlined),
                       selectedIcon: Icon(Icons.explore),
-                      label: Text('Discover'),
+                      label: Text(AppLocalizations.of(context)!.discoverTab),
                     ),
                     NavigationRailDestination(
                       icon: Icon(Icons.collections_bookmark_outlined),
                       selectedIcon: Icon(Icons.collections_bookmark),
-                      label: Text('Library'),
+                      label: Text(AppLocalizations.of(context)!.libraryTab),
                     ),
                     NavigationRailDestination(
                       icon: Icon(Icons.history_outlined),
                       selectedIcon: Icon(Icons.history),
-                      label: Text('History'),
+                      label: Text(AppLocalizations.of(context)!.historyTab),
                     ),
                     NavigationRailDestination(
                       icon: Icon(Icons.settings_outlined),
                       selectedIcon: Icon(Icons.settings),
-                      label: Text('Settings'),
+                      label: Text(AppLocalizations.of(context)!.settingsTab),
                     ),
                   ],
                 ),
@@ -95,31 +96,31 @@ class _MainScreenState extends State<MainScreen> {
                 _currentIndex = index;
               });
             },
-            destinations: const [
+            destinations: [
               NavigationDestination(
                 icon: Icon(Icons.home_outlined),
                 selectedIcon: Icon(Icons.home),
-                label: 'Home',
+                label: AppLocalizations.of(context)!.homeTab,
               ),
               NavigationDestination(
                 icon: Icon(Icons.explore_outlined),
                 selectedIcon: Icon(Icons.explore),
-                label: 'Discover',
+                label: AppLocalizations.of(context)!.discoverTab,
               ),
               NavigationDestination(
                 icon: Icon(Icons.collections_bookmark_outlined),
                 selectedIcon: Icon(Icons.collections_bookmark),
-                label: 'Library',
+                label: AppLocalizations.of(context)!.libraryTab,
               ),
               NavigationDestination(
                 icon: Icon(Icons.history_outlined),
                 selectedIcon: Icon(Icons.history),
-                label: 'History',
+                label: AppLocalizations.of(context)!.historyTab,
               ),
               NavigationDestination(
                 icon: Icon(Icons.settings_outlined),
                 selectedIcon: Icon(Icons.settings),
-                label: 'Settings',
+                label: AppLocalizations.of(context)!.settingsTab,
               ),
             ],
           );
