@@ -1,3 +1,4 @@
+import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(provider.homeError),
                   ElevatedButton(
                     onPressed: () => provider.fetchHomeData(refresh: true),
-                    child: const Text('Retry'),
+                    child: Text(AppLocalizations.of(context)!.retry),
                   ),
                 ],
               ),
@@ -65,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 if (provider.popularComics.length > 5) ...[
                   SliverToBoxAdapter(
-                    child: _buildSectionHeader('Hot Updates',
+                    child: _buildSectionHeader(AppLocalizations.of(context)!.popularComics,
                         icon: Icons.local_fire_department,
                         color: Colors.orange),
                   ),
@@ -96,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
                 if (provider.latestComics.isNotEmpty) ...[
                   SliverToBoxAdapter(
-                    child: _buildSectionHeader('Latest Updates',
+                    child: _buildSectionHeader(AppLocalizations.of(context)!.latestUpdates,
                         icon: Icons.schedule, color: Colors.blue),
                   ),
                   SliverPadding(

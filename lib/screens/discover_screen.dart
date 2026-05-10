@@ -1,3 +1,4 @@
+import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:komikuy/screens/search_screen.dart';
 
@@ -17,7 +18,7 @@ class DiscoverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Browse by Genre', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(AppLocalizations.of(context)!.browseByGenre, style: const TextStyle(fontWeight: FontWeight.bold)),
         elevation: 0,
       ),
       body: Padding(

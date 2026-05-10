@@ -85,7 +85,7 @@ class KomikuScraper {
       var latestArticles = document.querySelectorAll('article.ls4');
       for (var article in latestArticles) {
         try {
-          var titleEl = article.querySelector('h3 a');
+          var titleEl = article.querySelector('h4 a') ?? article.querySelector('h3 a');
           var title = titleEl?.text.trim() ?? 'Unknown';
           var href = _fixUrl(titleEl?.attributes['href'] ?? '');
           var cover = _extractImage(article);

@@ -38,5 +38,18 @@
   "readNow": "Mulai Membaca",
   "latestUpdate": "Pembaruan Terbaru",
   "synopsis": "Sinopsis",
-  "chapters": "Bab"
+  "chapters": "Bab",
+  "retry": "Coba Lagi",
+  "noResultsFound": "Tidak ada hasil yang ditemukan",
+  "findFavoriteComics": "Temukan komik favorit Anda",
+  "noImagesFound": "Gambar tidak ditemukan",
+  "prev": "Sblm",
+  "next": "Lanjut",
+  "toggledBookmark": "Bookmark diubah",
+  "addedToBookmark": "Ditambahkan ke Bookmark",
+  "removedFromBookmark": "Dihapus dari Bookmark",
+  "noDataFound": "Data tidak ditemukan",
+  "deleteSelected": "Hapus yang Dipilih",
+  "deleteSelectedConfirm": "Apakah Anda yakin ingin menghapus riwayat yang dipilih?",
+  "delete": "Hapus"
 }

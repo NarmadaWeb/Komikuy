@@ -2,7 +2,7 @@ name: komikuy
 description: Aplikasi Untuk Baca Komik.
 publish_to: 'none'
 
-version: 1.0.1
+version: 1.2.0
 
 environment:
   sdk: ^3.0.0

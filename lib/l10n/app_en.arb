@@ -38,5 +38,18 @@
   "readNow": "Start Reading",
   "latestUpdate": "Latest Update",
   "synopsis": "Synopsis",
-  "chapters": "Chapters"
+  "chapters": "Chapters",
+  "retry": "Retry",
+  "noResultsFound": "No results found",
+  "findFavoriteComics": "Find your favorite comics",
+  "noImagesFound": "No images found",
+  "prev": "Prev",
+  "next": "Next",
+  "toggledBookmark": "Toggled Bookmark",
+  "addedToBookmark": "Added to Bookmarks",
+  "removedFromBookmark": "Removed from Bookmarks",
+  "noDataFound": "No data found",
+  "deleteSelected": "Delete Selected",
+  "deleteSelectedConfirm": "Are you sure you want to delete selected history items?",
+  "delete": "Delete"
 }

@@ -1,3 +1,4 @@
+import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:komikuy/models/comic_detail.dart';
@@ -35,7 +36,7 @@ class _DetailScreenState extends State<DetailScreen> {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData) {
-            return const Center(child: Text('No data found'));
+            return Center(child: Text(AppLocalizations.of(context)!.noDataFound));
           }
 
           final detail = snapshot.data!;
@@ -202,8 +203,8 @@ class _DetailScreenState extends State<DetailScreen> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  const Text('Start Reading',
-                                      style: TextStyle(
+                                  Text(AppLocalizations.of(context)!.readNow,
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w500)),
                                   const SizedBox(height: 2),
@@ -250,7 +251,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text('Latest Update',
+                                  Text(AppLocalizations.of(context)!.latestUpdate,
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: Theme.of(context)
@@ -279,8 +280,8 @@ class _DetailScreenState extends State<DetailScreen> {
                         ],
                       ),
                       const SizedBox(height: 24),
-                      const Text('Synopsis',
-                          style: TextStyle(
+                      Text(AppLocalizations.of(context)!.synopsis,
+                          style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 8),
                       Text(
@@ -299,8 +300,8 @@ class _DetailScreenState extends State<DetailScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Chapters',
-                              style: TextStyle(
+                          Text(AppLocalizations.of(context)!.chapters,
+                              style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
                           Text('${detail.chapters.length} Chapters',
                               style: const TextStyle(
