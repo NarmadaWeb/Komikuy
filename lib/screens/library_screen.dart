@@ -12,7 +12,7 @@ class LibraryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.libraryTab, style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(AppLocalizations.of(context)!.libraryTab, style: const TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Consumer<ComicProvider>(
         builder: (context, provider, child) {
@@ -21,11 +21,11 @@ class LibraryScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.collections_bookmark_outlined, size: 64, color: Colors.grey),
-                  SizedBox(height: 16),
-                  Text(AppLocalizations.of(context)!.emptyLibraryTitle, style: TextStyle(color: Colors.grey)),
-                  SizedBox(height: 8),
-                  Text(AppLocalizations.of(context)!.emptyLibrarySubtitle, style: TextStyle(color: Colors.grey, fontSize: 12)),
+                  const Icon(Icons.collections_bookmark_outlined, size: 64, color: Colors.grey),
+                  const SizedBox(height: 16),
+                  Text(AppLocalizations.of(context)!.emptyLibraryTitle, style: const TextStyle(color: Colors.grey)),
+                  const SizedBox(height: 8),
+                  Text(AppLocalizations.of(context)!.emptyLibrarySubtitle, style: const TextStyle(color: Colors.grey, fontSize: 12)),
                 ],
               ),
             );

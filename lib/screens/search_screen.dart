@@ -68,7 +68,7 @@ class _SearchScreenState extends State<SearchScreen> {
       body: Consumer<ComicProvider>(
         builder: (context, provider, child) {
           if (provider.isSearching) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (provider.searchError.isNotEmpty) {
@@ -83,9 +83,9 @@ class _SearchScreenState extends State<SearchScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                   Icon(Icons.search, size: 64, color: Colors.grey),
-                   SizedBox(height: 16),
-                   Text(AppLocalizations.of(context)!.findFavoriteComics, style: TextStyle(color: Colors.grey)),
+                   const Icon(Icons.search, size: 64, color: Colors.grey),
+                   const SizedBox(height: 16),
+                   Text(AppLocalizations.of(context)!.findFavoriteComics, style: const TextStyle(color: Colors.grey)),
                 ],
               ),
             );

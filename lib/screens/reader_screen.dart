@@ -129,7 +129,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   _currentChapter.href), // Force rebuild on chapter change
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
                   return Center(
@@ -139,7 +139,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Center(
                       child: Text(AppLocalizations.of(context)!.noImagesFound,
-                          style: TextStyle(color: Colors.white)));
+                          style: const TextStyle(color: Colors.white)));
                 }
 
                 final images = snapshot.data!;
@@ -166,7 +166,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                       errorWidget: (context, url, error) => Container(
                         height: 200,
                         color: Colors.grey[900],
-                        child: Center(
+                        child: const Center(
                             child:
                                 Icon(Icons.broken_image, color: Colors.white)),
                       ),

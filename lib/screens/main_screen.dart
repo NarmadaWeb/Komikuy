@@ -17,11 +17,11 @@ class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    HomeScreen(),
-    DiscoverScreen(),
-    LibraryScreen(),
-    HistoryScreen(),
-    SettingsScreen(),
+    const HomeScreen(),
+    const DiscoverScreen(),
+    const LibraryScreen(),
+    const HistoryScreen(),
+    const SettingsScreen(),
   ];
 
   @override
@@ -42,28 +42,28 @@ class _MainScreenState extends State<MainScreen> {
                   labelType: NavigationRailLabelType.all,
                   destinations: [
                     NavigationRailDestination(
-                      icon: Icon(Icons.home_outlined),
-                      selectedIcon: Icon(Icons.home),
+                      icon: const Icon(Icons.home_outlined),
+                      selectedIcon: const Icon(Icons.home),
                       label: Text(AppLocalizations.of(context)!.homeTab),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.explore_outlined),
-                      selectedIcon: Icon(Icons.explore),
+                      icon: const Icon(Icons.explore_outlined),
+                      selectedIcon: const Icon(Icons.explore),
                       label: Text(AppLocalizations.of(context)!.discoverTab),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.collections_bookmark_outlined),
-                      selectedIcon: Icon(Icons.collections_bookmark),
+                      icon: const Icon(Icons.collections_bookmark_outlined),
+                      selectedIcon: const Icon(Icons.collections_bookmark),
                       label: Text(AppLocalizations.of(context)!.libraryTab),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.history_outlined),
-                      selectedIcon: Icon(Icons.history),
+                      icon: const Icon(Icons.history_outlined),
+                      selectedIcon: const Icon(Icons.history),
                       label: Text(AppLocalizations.of(context)!.historyTab),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.settings_outlined),
-                      selectedIcon: Icon(Icons.settings),
+                      icon: const Icon(Icons.settings_outlined),
+                      selectedIcon: const Icon(Icons.settings),
                       label: Text(AppLocalizations.of(context)!.settingsTab),
                     ),
                   ],
@@ -98,28 +98,28 @@ class _MainScreenState extends State<MainScreen> {
             },
             destinations: [
               NavigationDestination(
-                icon: Icon(Icons.home_outlined),
-                selectedIcon: Icon(Icons.home),
+                icon: const Icon(Icons.home_outlined),
+                selectedIcon: const Icon(Icons.home),
                 label: AppLocalizations.of(context)!.homeTab,
               ),
               NavigationDestination(
-                icon: Icon(Icons.explore_outlined),
-                selectedIcon: Icon(Icons.explore),
+                icon: const Icon(Icons.explore_outlined),
+                selectedIcon: const Icon(Icons.explore),
                 label: AppLocalizations.of(context)!.discoverTab,
               ),
               NavigationDestination(
-                icon: Icon(Icons.collections_bookmark_outlined),
-                selectedIcon: Icon(Icons.collections_bookmark),
+                icon: const Icon(Icons.collections_bookmark_outlined),
+                selectedIcon: const Icon(Icons.collections_bookmark),
                 label: AppLocalizations.of(context)!.libraryTab,
               ),
               NavigationDestination(
-                icon: Icon(Icons.history_outlined),
-                selectedIcon: Icon(Icons.history),
+                icon: const Icon(Icons.history_outlined),
+                selectedIcon: const Icon(Icons.history),
                 label: AppLocalizations.of(context)!.historyTab,
               ),
               NavigationDestination(
-                icon: Icon(Icons.settings_outlined),
-                selectedIcon: Icon(Icons.settings),
+                icon: const Icon(Icons.settings_outlined),
+                selectedIcon: const Icon(Icons.settings),
                 label: AppLocalizations.of(context)!.settingsTab,
               ),
             ],

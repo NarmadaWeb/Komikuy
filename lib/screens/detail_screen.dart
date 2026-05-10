@@ -30,7 +30,7 @@ class _DetailScreenState extends State<DetailScreen> {
         future: _detailFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -114,7 +114,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ),
                                 child: Text(
                                   detail.type.toUpperCase(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold),
@@ -123,7 +123,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             const SizedBox(height: 8),
                             Text(
                               detail.title,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -139,7 +139,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 const SizedBox(width: 4),
                                 Expanded(
                                     child: Text(detail.author,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Colors.white70),
                                         overflow: TextOverflow.ellipsis)),
                               ],
@@ -152,7 +152,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 const SizedBox(width: 4),
                                 Text(detail.status,
                                     style:
-                                        TextStyle(color: Colors.white70)),
+                                        const TextStyle(color: Colors.white70)),
                               ],
                             ),
                           ],
@@ -204,7 +204,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(AppLocalizations.of(context)!.readNow,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w500)),
                                   const SizedBox(height: 2),
@@ -212,7 +212,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       detail.chapters.isNotEmpty
                                           ? detail.chapters.last.title
                                           : 'N/A',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14),
                                       maxLines: 1,
@@ -281,7 +281,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                       const SizedBox(height: 24),
                       Text(AppLocalizations.of(context)!.synopsis,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 8),
                       Text(
@@ -301,10 +301,10 @@ class _DetailScreenState extends State<DetailScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(AppLocalizations.of(context)!.chapters,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold)),
                           Text('${detail.chapters.length} Chapters',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 12, color: Colors.grey)),
                         ],
                       ),
@@ -341,10 +341,10 @@ class _DetailScreenState extends State<DetailScreen> {
                             color: Theme.of(context).primaryColor, size: 20),
                       ),
                       title: Text(chapter.title,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 14)),
                       subtitle: Text(chapter.date,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 12, color: Colors.grey)),
                       trailing: const Icon(Icons.chevron_right,
                           size: 16, color: Colors.grey),

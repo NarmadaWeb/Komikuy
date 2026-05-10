@@ -18,7 +18,7 @@ class DiscoverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.browseByGenre, style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(AppLocalizations.of(context)!.browseByGenre, style: const TextStyle(fontWeight: FontWeight.bold)),
         elevation: 0,
       ),
       body: Padding(
