@@ -27,12 +27,15 @@ class ReaderScreen extends StatefulWidget {
 class _ReaderScreenState extends State<ReaderScreen> {
   late Chapter _currentChapter;
   late Future<List<String>> _imagesFuture;
+  late int _currentIndex;
   bool _showUI = true;
 
   @override
   void initState() {
     super.initState();
     _currentChapter = widget.initialChapter;
+    _currentIndex =
+        widget.chapters.indexWhere((c) => c.href == _currentChapter.href);
     _imagesFuture =
         context.read<ComicProvider>().getChapterImages(_currentChapter.href);
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -48,6 +51,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
   void _navigateToChapter(Chapter chapter) {
     setState(() {
       _currentChapter = chapter;
+      _currentIndex =
+          widget.chapters.indexWhere((c) => c.href == _currentChapter.href);
       _imagesFuture =
           context.read<ComicProvider>().getChapterImages(_currentChapter.href);
     });
@@ -102,8 +107,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex =
-        widget.chapters.indexWhere((c) => c.href == _currentChapter.href);
+    // Optimized: Use state variable instead of O(n) lookup in build
+    final currentIndex = _currentIndex;
 
     // Assuming standard manga list order: Newest (Index 0) -> Oldest (Index N)
     // "Next" usually means reading forward in the story (e.g. Ch 1 -> Ch 2).
@@ -145,6 +150,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 final images = snapshot.data!;
                 return ListView.builder(
                   padding: EdgeInsets.zero,
+                  cacheExtent: 2000.0, // Optimize scrolling smoothness
                   itemCount: images.length,
                   itemBuilder: (context, index) {
                     return CachedNetworkImage(
@@ -155,6 +161,10 @@ class _ReaderScreenState extends State<ReaderScreen> {
                       imageUrl: images[index],
                       fit: BoxFit.fitWidth,
                       width: double.infinity,
+                      // Optimize memory by decoding at display-appropriate resolution
+                      memCacheWidth: (MediaQuery.of(context).size.width *
+                              MediaQuery.of(context).devicePixelRatio)
+                          .round(),
                       placeholder: (context, url) => SizedBox(
                         height: 300,
                         child: Shimmer.fromColors(
