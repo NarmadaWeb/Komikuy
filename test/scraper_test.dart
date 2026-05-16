@@ -20,4 +20,15 @@ void main() {
       expect(e.toString().contains('Failed to search'), true);
     }
   });
+
+  test('Scraper fetches comics by genre', () async {
+    try {
+      final scraper = KomikuScraper();
+      final results = await scraper.getComicsByGenre('Action');
+      expect(results, isNotEmpty);
+    } catch (e) {
+      // Cloudflare/Network fallback
+      expect(e.toString().contains('Failed to fetch data'), true);
+    }
+  });
 }

@@ -38,6 +38,73 @@ class KomikuScraper {
     return src != null ? _fixUrl(src) : '';
   }
 
+  // Helper to fetch and parse a list of comics from a URL
+  Future<List<Comic>> _fetchComicList(String url, {String? errorMessage}) async {
+    final response = await http.get(Uri.parse(url), headers: {
+      'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+    });
+    if (response.statusCode != 200) {
+      throw Exception(errorMessage ?? 'Failed to fetch data from $url');
+    }
+
+    return _parseComicList(parse(response.body));
+  }
+
+  // Helper to parse a document into a list of comics
+  List<Comic> _parseComicList(Document document) {
+    List<Comic> results = [];
+    var articles = document.querySelectorAll('.bge');
+
+    for (var article in articles) {
+      try {
+        var titleEl = article.querySelector('.kan h3');
+        if (titleEl == null) continue;
+
+        var title = titleEl.text.trim();
+        var hrefEl = article.querySelector('.kan a');
+        var href = _fixUrl(hrefEl?.attributes['href'] ?? '');
+        var cover = _extractImage(article);
+
+        var typeEl = article.querySelector('.tpe1_inf b');
+        var type = typeEl?.text.trim() ?? 'Unknown';
+
+        var genreEl = article.querySelector('.tpe1_inf');
+        var genre = genreEl?.text.replaceAll(type, '').trim() ?? '';
+
+        var latestChapter = '';
+        // Look for "Terbaru"
+        var newEls = article.querySelectorAll('.new1');
+        for (var newEl in newEls) {
+          if (newEl.text.contains('Terbaru')) {
+            latestChapter =
+                newEl.querySelector('span:last-child')?.text.trim() ?? '';
+          }
+        }
+        if (latestChapter.isEmpty && newEls.isNotEmpty) {
+          // Fallback to last one
+          latestChapter =
+              newEls.last.querySelector('span:last-child')?.text.trim() ?? '';
+        }
+
+        var p = article.querySelector('.kan p');
+        var timeAgo = p?.text.trim() ?? '';
+
+        results.add(Comic(
+            title: title,
+            href: href,
+            cover: cover,
+            type: type,
+            latestChapter: latestChapter,
+            timeAgo: timeAgo,
+            genre: genre));
+      } catch (e) {
+        // print('Error parsing comic: $e');
+      }
+    }
+    return results;
+  }
+
   Future<Map<String, List<Comic>>> getHomeData() async {
     try {
       final response = await http.get(Uri.parse(baseUrl), headers: {
@@ -141,67 +208,7 @@ class KomikuScraper {
     // Use the API endpoint for search
     final url = 'https://api.komiku.org/?s=$query&post_type=manga';
     try {
-      final response = await http.get(Uri.parse(url), headers: {
-        'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      });
-      if (response.statusCode != 200) {
-        throw Exception('Failed to search');
-      }
-
-      var document = parse(response.body);
-      List<Comic> results = [];
-
-      var articles = document.querySelectorAll('.bge');
-
-      for (var article in articles) {
-        try {
-          var titleEl = article.querySelector('.kan h3');
-          if (titleEl == null) continue;
-
-          var title = titleEl.text.trim();
-          var hrefEl = article.querySelector('.kan a');
-          var href = _fixUrl(hrefEl?.attributes['href'] ?? '');
-          var cover = _extractImage(article);
-
-          var typeEl = article.querySelector('.tpe1_inf b');
-          var type = typeEl?.text.trim() ?? 'Unknown';
-
-          var genreEl = article.querySelector('.tpe1_inf');
-          var genre = genreEl?.text.replaceAll(type, '').trim() ?? '';
-
-          var latestChapter = '';
-          // Look for "Terbaru"
-          var newEls = article.querySelectorAll('.new1');
-          for (var newEl in newEls) {
-            if (newEl.text.contains('Terbaru')) {
-              latestChapter =
-                  newEl.querySelector('span:last-child')?.text.trim() ?? '';
-            }
-          }
-          if (latestChapter.isEmpty && newEls.isNotEmpty) {
-            // Fallback to last one
-            latestChapter =
-                newEls.last.querySelector('span:last-child')?.text.trim() ?? '';
-          }
-
-          var p = article.querySelector('.kan p');
-          var timeAgo = p?.text.trim() ?? '';
-
-          results.add(Comic(
-              title: title,
-              href: href,
-              cover: cover,
-              type: type,
-              latestChapter: latestChapter,
-              timeAgo: timeAgo,
-              genre: genre));
-        } catch (e) {
-          // print('Error parsing search result: $e');
-        }
-      }
-
-      return results;
+      return await _fetchComicList(url, errorMessage: 'Failed to search');
     } catch (e) {
       // print('Error searching: $e');
       rethrow;
@@ -210,75 +217,25 @@ class KomikuScraper {
 
   Future<List<Comic>> getComicsByGenre(String genre) async {
     final genreSlug = genre.toLowerCase();
-    List<Comic> results = [];
 
-    // Fetch at least two pages to ensure >= 25 items (20 items per page usually)
-    for (int page = 1; page <= 2; page++) {
-      final url = 'https://api.komiku.org/manga/page/$page/?genre=$genreSlug';
-      try {
-        final response = await http.get(Uri.parse(url), headers: {
-          'User-Agent':
-              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-        });
-        if (response.statusCode != 200) {
-          if (page == 1) throw Exception('Failed to fetch genre');
-          break; // Stop if subsequent pages fail
-        }
+    // Fetch at least two pages concurrently to ensure >= 25 items (usually 20 items per page)
+    // Parallelizing reduces total wait time significantly.
+    final page1Url = 'https://api.komiku.org/manga/page/1/?genre=$genreSlug';
+    final page2Url = 'https://api.komiku.org/manga/page/2/?genre=$genreSlug';
 
-        var document = parse(response.body);
-        var articles = document.querySelectorAll('.bge');
+    try {
+      final futures = [
+        _fetchComicList(page1Url),
+        _fetchComicList(page2Url).catchError((_) => <Comic>[]) // Page 2 is optional
+      ];
 
-        for (var article in articles) {
-          try {
-            var titleEl = article.querySelector('.kan h3');
-            if (titleEl == null) continue;
-
-            var title = titleEl.text.trim();
-            var hrefEl = article.querySelector('.kan a');
-            var href = _fixUrl(hrefEl?.attributes['href'] ?? '');
-            var cover = _extractImage(article);
-
-            var typeEl = article.querySelector('.tpe1_inf b');
-            var type = typeEl?.text.trim() ?? 'Unknown';
-
-            var genreEl = article.querySelector('.tpe1_inf');
-            var genreText = genreEl?.text.replaceAll(type, '').trim() ?? '';
-
-            var latestChapter = '';
-            var newEls = article.querySelectorAll('.new1');
-            for (var newEl in newEls) {
-              if (newEl.text.contains('Terbaru')) {
-                latestChapter =
-                    newEl.querySelector('span:last-child')?.text.trim() ?? '';
-              }
-            }
-            if (latestChapter.isEmpty && newEls.isNotEmpty) {
-              latestChapter =
-                  newEls.last.querySelector('span:last-child')?.text.trim() ??
-                      '';
-            }
-
-            var p = article.querySelector('.kan p');
-            var timeAgo = p?.text.trim() ?? '';
-
-            results.add(Comic(
-                title: title,
-                href: href,
-                cover: cover,
-                type: type,
-                latestChapter: latestChapter,
-                timeAgo: timeAgo,
-                genre: genreText));
-          } catch (e) {
-            // print('Error parsing genre result: $e');
-          }
-        }
-      } catch (e) {
-        if (page == 1) rethrow;
-      }
+      final resultsList = await Future.wait(futures);
+      return resultsList.expand((list) => list).toList();
+    } catch (e) {
+      // If page 1 fails, it will be caught here
+      // print('Error fetching comics by genre: $e');
+      rethrow;
     }
-
-    return results;
   }
 
   Future<ComicDetail> getComicDetail(String url) async {
