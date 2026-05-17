@@ -27,105 +27,101 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth >= 800) {
-            return Row(
-              children: [
-                NavigationRail(
-                  selectedIndex: _currentIndex,
-                  onDestinationSelected: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                  labelType: NavigationRailLabelType.all,
-                  destinations: [
-                    NavigationRailDestination(
-                      icon: const Icon(Icons.home_outlined),
-                      selectedIcon: const Icon(Icons.home),
-                      label: Text(AppLocalizations.of(context)!.homeTab),
-                    ),
-                    NavigationRailDestination(
-                      icon: const Icon(Icons.explore_outlined),
-                      selectedIcon: const Icon(Icons.explore),
-                      label: Text(AppLocalizations.of(context)!.discoverTab),
-                    ),
-                    NavigationRailDestination(
-                      icon: const Icon(Icons.collections_bookmark_outlined),
-                      selectedIcon: const Icon(Icons.collections_bookmark),
-                      label: Text(AppLocalizations.of(context)!.libraryTab),
-                    ),
-                    NavigationRailDestination(
-                      icon: const Icon(Icons.history_outlined),
-                      selectedIcon: const Icon(Icons.history),
-                      label: Text(AppLocalizations.of(context)!.historyTab),
-                    ),
-                    NavigationRailDestination(
-                      icon: const Icon(Icons.settings_outlined),
-                      selectedIcon: const Icon(Icons.settings),
-                      label: Text(AppLocalizations.of(context)!.settingsTab),
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: IndexedStack(
-                    index: _currentIndex,
-                    children: _screens,
+      body: LayoutBuilder(builder: (context, constraints) {
+        if (constraints.maxWidth >= 800) {
+          return Row(
+            children: [
+              NavigationRail(
+                selectedIndex: _currentIndex,
+                onDestinationSelected: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                labelType: NavigationRailLabelType.all,
+                destinations: [
+                  NavigationRailDestination(
+                    icon: const Icon(Icons.home_outlined),
+                    selectedIcon: const Icon(Icons.home),
+                    label: Text(AppLocalizations.of(context)!.homeTab),
                   ),
+                  NavigationRailDestination(
+                    icon: const Icon(Icons.explore_outlined),
+                    selectedIcon: const Icon(Icons.explore),
+                    label: Text(AppLocalizations.of(context)!.discoverTab),
+                  ),
+                  NavigationRailDestination(
+                    icon: const Icon(Icons.collections_bookmark_outlined),
+                    selectedIcon: const Icon(Icons.collections_bookmark),
+                    label: Text(AppLocalizations.of(context)!.libraryTab),
+                  ),
+                  NavigationRailDestination(
+                    icon: const Icon(Icons.history_outlined),
+                    selectedIcon: const Icon(Icons.history),
+                    label: Text(AppLocalizations.of(context)!.historyTab),
+                  ),
+                  NavigationRailDestination(
+                    icon: const Icon(Icons.settings_outlined),
+                    selectedIcon: const Icon(Icons.settings),
+                    label: Text(AppLocalizations.of(context)!.settingsTab),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: IndexedStack(
+                  index: _currentIndex,
+                  children: _screens,
                 ),
-              ],
-            );
-          }
-
-          return IndexedStack(
-            index: _currentIndex,
-            children: _screens,
-          );
-        }
-      ),
-      bottomNavigationBar: LayoutBuilder(
-        builder: (context, constraints) {
-          if (MediaQuery.of(context).size.width >= 800) {
-            return const SizedBox.shrink();
-          }
-          return NavigationBar(
-            selectedIndex: _currentIndex,
-            onDestinationSelected: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            destinations: [
-              NavigationDestination(
-                icon: const Icon(Icons.home_outlined),
-                selectedIcon: const Icon(Icons.home),
-                label: AppLocalizations.of(context)!.homeTab,
-              ),
-              NavigationDestination(
-                icon: const Icon(Icons.explore_outlined),
-                selectedIcon: const Icon(Icons.explore),
-                label: AppLocalizations.of(context)!.discoverTab,
-              ),
-              NavigationDestination(
-                icon: const Icon(Icons.collections_bookmark_outlined),
-                selectedIcon: const Icon(Icons.collections_bookmark),
-                label: AppLocalizations.of(context)!.libraryTab,
-              ),
-              NavigationDestination(
-                icon: const Icon(Icons.history_outlined),
-                selectedIcon: const Icon(Icons.history),
-                label: AppLocalizations.of(context)!.historyTab,
-              ),
-              NavigationDestination(
-                icon: const Icon(Icons.settings_outlined),
-                selectedIcon: const Icon(Icons.settings),
-                label: AppLocalizations.of(context)!.settingsTab,
               ),
             ],
           );
         }
-      ),
+
+        return IndexedStack(
+          index: _currentIndex,
+          children: _screens,
+        );
+      }),
+      bottomNavigationBar: LayoutBuilder(builder: (context, constraints) {
+        if (MediaQuery.of(context).size.width >= 800) {
+          return const SizedBox.shrink();
+        }
+        return NavigationBar(
+          selectedIndex: _currentIndex,
+          onDestinationSelected: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          destinations: [
+            NavigationDestination(
+              icon: const Icon(Icons.home_outlined),
+              selectedIcon: const Icon(Icons.home),
+              label: AppLocalizations.of(context)!.homeTab,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.explore_outlined),
+              selectedIcon: const Icon(Icons.explore),
+              label: AppLocalizations.of(context)!.discoverTab,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.collections_bookmark_outlined),
+              selectedIcon: const Icon(Icons.collections_bookmark),
+              label: AppLocalizations.of(context)!.libraryTab,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.history_outlined),
+              selectedIcon: const Icon(Icons.history),
+              label: AppLocalizations.of(context)!.historyTab,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.settings_outlined),
+              selectedIcon: const Icon(Icons.settings),
+              label: AppLocalizations.of(context)!.settingsTab,
+            ),
+          ],
+        );
+      }),
     );
   }
 }

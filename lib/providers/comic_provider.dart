@@ -122,7 +122,8 @@ class ComicProvider with ChangeNotifier {
 
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('history', jsonEncode(_history.map((e) => e.toJson()).toList()));
+    prefs.setString(
+        'history', jsonEncode(_history.map((e) => e.toJson()).toList()));
   }
 
   Future<void> toggleBookmark(Comic comic) async {
@@ -134,7 +135,8 @@ class ComicProvider with ChangeNotifier {
     }
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('bookmarks', jsonEncode(_bookmarks.map((e) => e.toJson()).toList()));
+    prefs.setString(
+        'bookmarks', jsonEncode(_bookmarks.map((e) => e.toJson()).toList()));
   }
 
   bool isBookmarked(String href) {
@@ -149,7 +151,8 @@ class ComicProvider with ChangeNotifier {
   }
 
   Future<void> fetchHomeData({bool refresh = false}) async {
-    if (!refresh && (_popularComics.isNotEmpty || _latestComics.isNotEmpty)) return;
+    if (!refresh && (_popularComics.isNotEmpty || _latestComics.isNotEmpty))
+      return;
 
     _isLoadingHome = true;
     _homeError = '';
@@ -217,5 +220,6 @@ class ComicProvider with ChangeNotifier {
 
   // Helper for Detail/Reader (stateless fetch)
   Future<ComicDetail> getDetail(String url) => _scraper.getComicDetail(url);
-  Future<List<String>> getChapterImages(String url) => _scraper.getChapterImages(url);
+  Future<List<String>> getChapterImages(String url) =>
+      _scraper.getChapterImages(url);
 }

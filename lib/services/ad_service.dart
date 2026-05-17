@@ -12,7 +12,8 @@ class AdService {
   AdService._internal();
 
   // Real Ad Unit ID as requested
-  static const String _rewardedAdUnitId = 'ca-app-pub-3802258742710450/1527112033';
+  static const String _rewardedAdUnitId =
+      'ca-app-pub-3802258742710450/1527112033';
 
   bool get _isSupportedPlatform {
     if (kIsWeb) return false;
@@ -29,7 +30,8 @@ class AdService {
     required Function(LoadAdError) onAdFailed,
   }) {
     if (!_isSupportedPlatform) {
-      onAdFailed(LoadAdError(0, 'AdService', 'Ads not supported on this platform', null));
+      onAdFailed(LoadAdError(
+          0, 'AdService', 'Ads not supported on this platform', null));
       return;
     }
 

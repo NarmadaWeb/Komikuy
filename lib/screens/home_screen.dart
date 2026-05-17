@@ -66,7 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 if (provider.popularComics.length > 5) ...[
                   SliverToBoxAdapter(
-                    child: _buildSectionHeader(AppLocalizations.of(context)!.popularComics,
+                    child: _buildSectionHeader(
+                        AppLocalizations.of(context)!.popularComics,
                         icon: Icons.local_fire_department,
                         color: Colors.orange),
                   ),
@@ -97,8 +98,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
                 if (provider.latestComics.isNotEmpty) ...[
                   SliverToBoxAdapter(
-                    child: _buildSectionHeader(AppLocalizations.of(context)!.latestUpdates,
-                        icon: Icons.schedule, color: Colors.blue),
+                    child: _buildSectionHeader(
+                        AppLocalizations.of(context)!.latestUpdates,
+                        icon: Icons.schedule,
+                        color: Colors.blue),
                   ),
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),

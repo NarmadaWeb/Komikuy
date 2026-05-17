@@ -72,20 +72,22 @@ class _SearchScreenState extends State<SearchScreen> {
           }
 
           if (provider.searchError.isNotEmpty) {
-             return Center(child: Text('Error: ${provider.searchError}'));
+            return Center(child: Text('Error: ${provider.searchError}'));
           }
 
           if (provider.searchResults.isEmpty) {
             if (_controller.text.isNotEmpty) {
-               return Center(child: Text(AppLocalizations.of(context)!.noResultsFound));
+              return Center(
+                  child: Text(AppLocalizations.of(context)!.noResultsFound));
             }
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                   const Icon(Icons.search, size: 64, color: Colors.grey),
-                   const SizedBox(height: 16),
-                   Text(AppLocalizations.of(context)!.findFavoriteComics, style: const TextStyle(color: Colors.grey)),
+                  const Icon(Icons.search, size: 64, color: Colors.grey),
+                  const SizedBox(height: 16),
+                  Text(AppLocalizations.of(context)!.findFavoriteComics,
+                      style: const TextStyle(color: Colors.grey)),
                 ],
               ),
             );
@@ -101,7 +103,10 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: ComicCard(
                   comic: comic,
                   isHorizontal: true,
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => DetailScreen(url: comic.href))),
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => DetailScreen(url: comic.href))),
                 ),
               );
             },

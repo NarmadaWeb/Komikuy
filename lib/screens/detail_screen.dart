@@ -36,7 +36,8 @@ class _DetailScreenState extends State<DetailScreen> {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData) {
-            return Center(child: Text(AppLocalizations.of(context)!.noDataFound));
+            return Center(
+                child: Text(AppLocalizations.of(context)!.noDataFound));
           }
 
           final detail = snapshot.data!;
@@ -251,7 +252,9 @@ class _DetailScreenState extends State<DetailScreen> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(AppLocalizations.of(context)!.latestUpdate,
+                                  Text(
+                                      AppLocalizations.of(context)!
+                                          .latestUpdate,
                                       style: TextStyle(
                                           fontSize: 12,
                                           color: Theme.of(context)

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppAlerts {
-  static Future<void> showSuccess(BuildContext context, String message, {String title = 'Success'}) {
+  static Future<void> showSuccess(BuildContext context, String message,
+      {String title = 'Success'}) {
     return showDialog(
       context: context,
       builder: (context) => _CustomDialog(
@@ -12,14 +13,16 @@ class AppAlerts {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('OK', style: TextStyle(fontWeight: FontWeight.bold)),
+            child:
+                const Text('OK', style: TextStyle(fontWeight: FontWeight.bold)),
           ),
         ],
       ),
     );
   }
 
-  static Future<void> showError(BuildContext context, String message, {String title = 'Error'}) {
+  static Future<void> showError(BuildContext context, String message,
+      {String title = 'Error'}) {
     return showDialog(
       context: context,
       builder: (context) => _CustomDialog(
@@ -30,14 +33,17 @@ class AppAlerts {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('OK', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+            child: const Text('OK',
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
           ),
         ],
       ),
     );
   }
 
-  static Future<bool?> showConfirm(BuildContext context, String message, {String title = 'Confirm', required VoidCallback onConfirm}) {
+  static Future<bool?> showConfirm(BuildContext context, String message,
+      {String title = 'Confirm', required VoidCallback onConfirm}) {
     return showDialog<bool>(
       context: context,
       builder: (context) => _CustomDialog(
@@ -59,7 +65,8 @@ class AppAlerts {
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).primaryColor,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
             ),
             child: const Text('Confirm'),
           ),
@@ -127,7 +134,13 @@ class _CustomDialog extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.8)),
+              style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.color
+                      ?.withValues(alpha: 0.8)),
             ),
             const SizedBox(height: 24),
             Row(

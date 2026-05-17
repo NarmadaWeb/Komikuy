@@ -81,7 +81,8 @@ class Comic {
       isColor: isColor ?? this.isColor,
       rating: rating ?? this.rating,
       lastReadChapter: lastReadChapter ?? this.lastReadChapter,
-      lastReadChapterEndpoint: lastReadChapterEndpoint ?? this.lastReadChapterEndpoint,
+      lastReadChapterEndpoint:
+          lastReadChapterEndpoint ?? this.lastReadChapterEndpoint,
     );
   }
 }

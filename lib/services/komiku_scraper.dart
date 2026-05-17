@@ -39,7 +39,8 @@ class KomikuScraper {
   }
 
   // Helper to fetch and parse a list of comics from a URL
-  Future<List<Comic>> _fetchComicList(String url, {String? errorMessage}) async {
+  Future<List<Comic>> _fetchComicList(String url,
+      {String? errorMessage}) async {
     final response = await http.get(Uri.parse(url), headers: {
       'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -152,7 +153,8 @@ class KomikuScraper {
       var latestArticles = document.querySelectorAll('article.ls4');
       for (var article in latestArticles) {
         try {
-          var titleEl = article.querySelector('h4 a') ?? article.querySelector('h3 a');
+          var titleEl =
+              article.querySelector('h4 a') ?? article.querySelector('h3 a');
           var title = titleEl?.text.trim() ?? 'Unknown';
           var href = _fixUrl(titleEl?.attributes['href'] ?? '');
           var cover = _extractImage(article);
@@ -226,7 +228,8 @@ class KomikuScraper {
     try {
       final futures = [
         _fetchComicList(page1Url),
-        _fetchComicList(page2Url).catchError((_) => <Comic>[]) // Page 2 is optional
+        _fetchComicList(page2Url)
+            .catchError((_) => <Comic>[]) // Page 2 is optional
       ];
 
       final resultsList = await Future.wait(futures);

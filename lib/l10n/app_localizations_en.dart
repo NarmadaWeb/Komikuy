@@ -42,7 +42,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clearCacheConfirmTitle => 'Clear Cache';
 
   @override
-  String get clearCacheConfirmMessage => 'Are you sure you want to clear the image cache?';
+  String get clearCacheConfirmMessage =>
+      'Are you sure you want to clear the image cache?';
 
   @override
   String get clearCacheSuccessMessage => 'Image cache cleared successfully';
@@ -105,7 +106,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clearHistory => 'Clear History';
 
   @override
-  String get clearHistoryConfirm => 'Are you sure you want to clear your reading history?';
+  String get clearHistoryConfirm =>
+      'Are you sure you want to clear your reading history?';
 
   @override
   String get cancel => 'Cancel';
@@ -159,7 +161,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteSelected => 'Delete Selected';
 
   @override
-  String get deleteSelectedConfirm => 'Are you sure you want to delete selected history items?';
+  String get deleteSelectedConfirm =>
+      'Are you sure you want to delete selected history items?';
 
   @override
   String get delete => 'Delete';

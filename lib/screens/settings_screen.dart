@@ -12,7 +12,8 @@ class SettingsScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.settingsTitle, style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(l10n.settingsTitle,
+            style: const TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Consumer<ComicProvider>(
         builder: (context, provider, child) {
@@ -23,7 +24,10 @@ class SettingsScreen extends StatelessWidget {
                 leading: const Icon(Icons.dark_mode),
                 title: Text(l10n.darkMode),
                 trailing: Switch(
-                  value: provider.themeMode == ThemeMode.dark || (provider.themeMode == ThemeMode.system && MediaQuery.platformBrightnessOf(context) == Brightness.dark),
+                  value: provider.themeMode == ThemeMode.dark ||
+                      (provider.themeMode == ThemeMode.system &&
+                          MediaQuery.platformBrightnessOf(context) ==
+                              Brightness.dark),
                   onChanged: (val) {
                     provider.toggleTheme(val);
                   },
@@ -59,25 +63,20 @@ class SettingsScreen extends StatelessWidget {
                   underline: const SizedBox(),
                 ),
               ),
-
               _buildSectionHeader(l10n.storageSection),
               ListTile(
                 leading: const Icon(Icons.delete_outline),
                 title: Text(l10n.clearCache),
                 subtitle: Text(l10n.clearCacheSubtitle),
                 onTap: () {
-                  AppAlerts.showConfirm(
-                    context,
-                    l10n.clearCacheConfirmMessage,
-                    title: l10n.clearCacheConfirmTitle,
-                    onConfirm: () {
-                      // In a real app we'd clear DefaultCacheManager here
-                      AppAlerts.showSuccess(context, l10n.clearCacheSuccessMessage);
-                    }
-                  );
+                  AppAlerts.showConfirm(context, l10n.clearCacheConfirmMessage,
+                      title: l10n.clearCacheConfirmTitle, onConfirm: () {
+                    // In a real app we'd clear DefaultCacheManager here
+                    AppAlerts.showSuccess(
+                        context, l10n.clearCacheSuccessMessage);
+                  });
                 },
               ),
-
               _buildSectionHeader(l10n.aboutSection),
               ListTile(
                 leading: const Icon(Icons.info_outline),
@@ -88,10 +87,12 @@ class SettingsScreen extends StatelessWidget {
                     context: context,
                     applicationName: 'Komikuy',
                     applicationVersion: '1.0.0',
-                    applicationIcon: const Icon(Icons.book, size: 48, color: Colors.blue),
+                    applicationIcon:
+                        const Icon(Icons.book, size: 48, color: Colors.blue),
                     children: const [
                       SizedBox(height: 16),
-                      Text('Komikuy is a free comic reader app that allows you to read your favorite manga, manhwa, and manhua from komiku.org.'),
+                      Text(
+                          'Komikuy is a free comic reader app that allows you to read your favorite manga, manhwa, and manhua from komiku.org.'),
                     ],
                   );
                 },
@@ -105,14 +106,12 @@ class SettingsScreen extends StatelessWidget {
                     builder: (context) => AlertDialog(
                       title: Text(l10n.privacyPolicy),
                       content: const SingleChildScrollView(
-                        child: Text(
-                          'Privacy Policy for Komikuy\n\n'
-                          'This app is provided at no cost and is intended for use as is. '
-                          'We do not collect any personal data or usage analytics. '
-                          'All data such as history and bookmarks are stored locally on your device.\n\n'
-                          'The app fetches comic data and images directly from komiku.org. '
-                          'We are not affiliated with komiku.org in any way.'
-                        ),
+                        child: Text('Privacy Policy for Komikuy\n\n'
+                            'This app is provided at no cost and is intended for use as is. '
+                            'We do not collect any personal data or usage analytics. '
+                            'All data such as history and bookmarks are stored locally on your device.\n\n'
+                            'The app fetches comic data and images directly from komiku.org. '
+                            'We are not affiliated with komiku.org in any way.'),
                       ),
                       actions: [
                         TextButton(
