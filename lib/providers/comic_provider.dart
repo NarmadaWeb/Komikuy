@@ -151,8 +151,9 @@ class ComicProvider with ChangeNotifier {
   }
 
   Future<void> fetchHomeData({bool refresh = false}) async {
-    if (!refresh && (_popularComics.isNotEmpty || _latestComics.isNotEmpty))
+    if (!refresh && (_popularComics.isNotEmpty || _latestComics.isNotEmpty)) {
       return;
+    }
 
     _isLoadingHome = true;
     _homeError = '';
