@@ -107,6 +107,11 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Bolt: Hoist MediaQuery lookups out of the itemBuilder to optimize scrolling performance
+    final mediaQuery = MediaQuery.of(context);
+    final cacheWidth =
+        (mediaQuery.size.width * mediaQuery.devicePixelRatio).round();
+
     // Optimized: Use state variable instead of O(n) lookup in build
     final currentIndex = _currentIndex;
 
@@ -162,9 +167,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                       fit: BoxFit.fitWidth,
                       width: double.infinity,
                       // Optimize memory by decoding at display-appropriate resolution
-                      memCacheWidth: (MediaQuery.of(context).size.width *
-                              MediaQuery.of(context).devicePixelRatio)
-                          .round(),
+                      memCacheWidth: cacheWidth,
                       placeholder: (context, url) => SizedBox(
                         height: 300,
                         child: Shimmer.fromColors(
@@ -208,8 +211,9 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   icon: const Icon(Icons.bookmark_border),
                   onPressed: () {
                     context.read<ComicProvider>().toggleBookmark(widget.comic);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(AppLocalizations.of(context)!.toggledBookmark)));
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            AppLocalizations.of(context)!.toggledBookmark)));
                   },
                 ),
               ],
