@@ -13,6 +13,7 @@ void main() {
   testWidgets('KomikuyApp builds successfully', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const KomikuyApp());
-    await tester.pumpAndSettle(const Duration(seconds: 10)); // Allow timers to complete
+    await tester
+        .pumpAndSettle(const Duration(seconds: 10)); // Allow timers to complete
   });
 }

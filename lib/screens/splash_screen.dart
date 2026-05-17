@@ -39,8 +39,8 @@ class _SplashScreenState extends State<SplashScreen> {
     // Maximum wait time (timeout) - 8 seconds total
     Timer(const Duration(seconds: 8), () {
       if (mounted && !_isAdLoaded && !_isAdFailed) {
-         // If still waiting for ad, just go
-         _navigateToMain();
+        // If still waiting for ad, just go
+        _navigateToMain();
       }
     });
   }
@@ -99,7 +99,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF003366), 
+      backgroundColor: const Color(0xFF003366),
       body: Center(
         child: Image.asset(
           'assets/logo.png',

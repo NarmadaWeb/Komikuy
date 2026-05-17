@@ -12,28 +12,31 @@ class HistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('History', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('History',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_outline),
             onPressed: () {
               showDialog(
-                context: context,
-                builder: (ctx) => AlertDialog(
-                  title: const Text('Clear History'),
-                  content: const Text('Are you sure you want to clear your reading history?'),
-                  actions: [
-                    TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
-                    TextButton(
-                      onPressed: () {
-                        context.read<ComicProvider>().clearHistory();
-                        Navigator.pop(ctx);
-                      },
-                      child: const Text('Clear', style: TextStyle(color: Colors.red))
-                    ),
-                  ],
-                )
-              );
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                        title: const Text('Clear History'),
+                        content: const Text(
+                            'Are you sure you want to clear your reading history?'),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Navigator.pop(ctx),
+                              child: const Text('Cancel')),
+                          TextButton(
+                              onPressed: () {
+                                context.read<ComicProvider>().clearHistory();
+                                Navigator.pop(ctx);
+                              },
+                              child: const Text('Clear',
+                                  style: TextStyle(color: Colors.red))),
+                        ],
+                      ));
             },
           ),
         ],
@@ -49,7 +52,8 @@ class HistoryScreen extends StatelessWidget {
                   SizedBox(height: 16),
                   Text('No history yet', style: TextStyle(color: Colors.grey)),
                   SizedBox(height: 8),
-                  Text('Start reading to build your history', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                  Text('Start reading to build your history',
+                      style: TextStyle(color: Colors.grey, fontSize: 12)),
                 ],
               ),
             );
@@ -71,12 +75,14 @@ class HistoryScreen extends StatelessWidget {
                       showDialog(
                         context: context,
                         barrierDismissible: false,
-                        builder: (ctx) => const Center(child: CircularProgressIndicator()),
+                        builder: (ctx) =>
+                            const Center(child: CircularProgressIndicator()),
                       );
 
                       try {
                         final detail = await provider.getDetail(comic.href);
-                        final chapterIndex = detail.chapters.indexWhere((c) => c.href == comic.lastReadChapterEndpoint);
+                        final chapterIndex = detail.chapters.indexWhere(
+                            (c) => c.href == comic.lastReadChapterEndpoint);
 
                         if (context.mounted) {
                           Navigator.pop(context); // Dismiss loading
@@ -92,18 +98,30 @@ class HistoryScreen extends StatelessWidget {
                               ),
                             );
                           } else {
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => DetailScreen(url: comic.href)));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        DetailScreen(url: comic.href)));
                           }
                         }
                       } catch (e) {
                         if (context.mounted) {
                           Navigator.pop(context); // Dismiss loading
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => DetailScreen(url: comic.href)));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Error: $e')));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) =>
+                                      DetailScreen(url: comic.href)));
                         }
                       }
                     } else {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => DetailScreen(url: comic.href)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => DetailScreen(url: comic.href)));
                     }
                   },
                 ),

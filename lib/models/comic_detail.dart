@@ -27,14 +27,13 @@ class ComicDetail {
   });
 
   Comic toComic(String href) {
-      return Comic(
-          title: title,
-          href: href,
-          cover: cover,
-          type: type,
-          latestChapter: chapters.isNotEmpty ? chapters.first.title : '',
-          timeAgo: '', // Not available in detail
-          rating: rating
-      );
+    return Comic(
+        title: title,
+        href: href,
+        cover: cover,
+        type: type,
+        latestChapter: chapters.isNotEmpty ? chapters.first.title : '',
+        timeAgo: '', // Not available in detail
+        rating: rating);
   }
 }

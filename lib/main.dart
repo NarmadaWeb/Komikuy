@@ -22,8 +22,12 @@ class KomikuyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ComicProvider()),
       ],
-      child: Consumer<ComicProvider>(
-        builder: (context, provider, child) {
+      child: Selector<ComicProvider, ({ThemeMode themeMode, Locale? locale})>(
+        selector: (_, provider) => (
+          themeMode: provider.themeMode,
+          locale: provider.locale,
+        ),
+        builder: (context, data, child) {
           return MaterialApp(
             title: 'Komikuy',
             debugShowCheckedModeBanner: false,
@@ -48,11 +52,12 @@ class KomikuyApp extends StatelessWidget {
                 surface: const Color(0xFF101922),
                 brightness: Brightness.dark,
               ),
-              textTheme: GoogleFonts.plusJakartaSansTextTheme(ThemeData.dark().textTheme),
+              textTheme: GoogleFonts.plusJakartaSansTextTheme(
+                  ThemeData.dark().textTheme),
               scaffoldBackgroundColor: const Color(0xFF101922),
             ),
-            themeMode: provider.themeMode,
-            locale: provider.locale,
+            themeMode: data.themeMode,
+            locale: data.locale,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,

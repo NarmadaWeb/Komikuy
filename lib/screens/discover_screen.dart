@@ -6,10 +6,18 @@ class DiscoverScreen extends StatelessWidget {
   const DiscoverScreen({super.key});
 
   final List<Map<String, dynamic>> genres = const [
-    {'name': 'Action', 'icon': Icons.sports_martial_arts, 'color': Colors.orange},
+    {
+      'name': 'Action',
+      'icon': Icons.sports_martial_arts,
+      'color': Colors.orange
+    },
     {'name': 'Romance', 'icon': Icons.favorite, 'color': Colors.pink},
     {'name': 'Isekai', 'icon': Icons.auto_fix_high, 'color': Colors.purple},
-    {'name': 'Comedy', 'icon': Icons.sentiment_very_satisfied, 'color': Colors.yellow},
+    {
+      'name': 'Comedy',
+      'icon': Icons.sentiment_very_satisfied,
+      'color': Colors.yellow
+    },
     {'name': 'Fantasy', 'icon': Icons.fort, 'color': Colors.blue},
     {'name': 'Horror', 'icon': Icons.coronavirus, 'color': Colors.red},
   ];
@@ -18,7 +26,8 @@ class DiscoverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.browseByGenre, style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(AppLocalizations.of(context)!.browseByGenre,
+            style: const TextStyle(fontWeight: FontWeight.bold)),
         elevation: 0,
       ),
       body: Padding(
@@ -34,10 +43,14 @@ class DiscoverScreen extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+                fillColor:
+                    Theme.of(context).colorScheme.surfaceContainerHighest,
               ),
               onSubmitted: (value) {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => SearchScreen(initialQuery: value)));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => SearchScreen(initialQuery: value)));
               },
             ),
             const SizedBox(height: 16),
@@ -54,14 +67,21 @@ class DiscoverScreen extends StatelessWidget {
                   final genre = genres[index];
                   return InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => SearchScreen(initialQuery: genre['name'].toString(), isGenre: true)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => SearchScreen(
+                                  initialQuery: genre['name'].toString(),
+                                  isGenre: true)));
                     },
                     borderRadius: BorderRadius.circular(16),
                     child: Container(
                       decoration: BoxDecoration(
                         color: (genre['color'] as Color).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: (genre['color'] as Color).withValues(alpha: 0.3)),
+                        border: Border.all(
+                            color: (genre['color'] as Color)
+                                .withValues(alpha: 0.3)),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -72,15 +92,17 @@ class DiscoverScreen extends StatelessWidget {
                               color: genre['color'] as Color,
                               shape: BoxShape.circle,
                             ),
-                            child: Icon(genre['icon'] as IconData, color: Colors.white, size: 32),
+                            child: Icon(genre['icon'] as IconData,
+                                color: Colors.white, size: 32),
                           ),
                           const SizedBox(height: 12),
                           Text(
                             genre['name'].toString(),
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Theme.of(context).textTheme.bodyLarge?.color,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color:
+                                  Theme.of(context).textTheme.bodyLarge?.color,
                             ),
                           ),
                         ],

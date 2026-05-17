@@ -21,7 +21,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get notifications => 'Notifikasi';
 
   @override
-  String get notificationsSubtitle => 'Dapatkan pembaruan untuk perpustakaan Anda';
+  String get notificationsSubtitle =>
+      'Dapatkan pembaruan untuk perpustakaan Anda';
 
   @override
   String get language => 'Bahasa';
@@ -36,13 +37,15 @@ class AppLocalizationsId extends AppLocalizations {
   String get clearCache => 'Bersihkan Cache';
 
   @override
-  String get clearCacheSubtitle => 'Kosongkan ruang dengan membersihkan cache gambar';
+  String get clearCacheSubtitle =>
+      'Kosongkan ruang dengan membersihkan cache gambar';
 
   @override
   String get clearCacheConfirmTitle => 'Bersihkan Cache';
 
   @override
-  String get clearCacheConfirmMessage => 'Apakah Anda yakin ingin membersihkan cache gambar?';
+  String get clearCacheConfirmMessage =>
+      'Apakah Anda yakin ingin membersihkan cache gambar?';
 
   @override
   String get clearCacheSuccessMessage => 'Cache gambar berhasil dibersihkan';
@@ -105,7 +108,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get clearHistory => 'Bersihkan Riwayat';
 
   @override
-  String get clearHistoryConfirm => 'Apakah Anda yakin ingin menghapus riwayat membaca Anda?';
+  String get clearHistoryConfirm =>
+      'Apakah Anda yakin ingin menghapus riwayat membaca Anda?';
 
   @override
   String get cancel => 'Batal';
@@ -159,7 +163,8 @@ class AppLocalizationsId extends AppLocalizations {
   String get deleteSelected => 'Hapus yang Dipilih';
 
   @override
-  String get deleteSelectedConfirm => 'Apakah Anda yakin ingin menghapus riwayat yang dipilih?';
+  String get deleteSelectedConfirm =>
+      'Apakah Anda yakin ingin menghapus riwayat yang dipilih?';
 
   @override
   String get delete => 'Hapus';
