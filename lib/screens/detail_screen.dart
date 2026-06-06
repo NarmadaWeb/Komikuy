@@ -2,6 +2,7 @@ import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:komikuy/models/comic_detail.dart';
+import 'package:komikuy/services/komiku_scraper.dart';
 import 'package:komikuy/providers/comic_provider.dart';
 import 'package:komikuy/screens/reader_screen.dart';
 import 'package:provider/provider.dart';
@@ -74,10 +75,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     fit: StackFit.expand,
                     children: [
                       CachedNetworkImage(
-                        httpHeaders: const {
-                          'User-Agent':
-                              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                        },
+                        httpHeaders: KomikuScraper.getImageHeaders(),
                         imageUrl: detail.cover,
                         fit: BoxFit.cover,
                         placeholder: (context, url) =>
@@ -215,8 +213,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                           : 'N/A',
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 14),
-                                      maxLines: 1,
+                                          fontSize: 14),                                      maxLines: 1,
                                       overflow: TextOverflow.ellipsis),
                                 ],
                               ),

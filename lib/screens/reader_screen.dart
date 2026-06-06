@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:komikuy/models/chapter.dart';
 import 'package:komikuy/models/comic.dart';
+import 'package:komikuy/services/komiku_scraper.dart';
 import 'package:komikuy/providers/comic_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -159,10 +160,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   itemCount: images.length,
                   itemBuilder: (context, index) {
                     return CachedNetworkImage(
-                      httpHeaders: const {
-                        'User-Agent':
-                            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                      },
+                      httpHeaders: KomikuScraper.getImageHeaders(
+                          referer: _currentChapter.href),
                       imageUrl: images[index],
                       fit: BoxFit.fitWidth,
                       width: double.infinity,

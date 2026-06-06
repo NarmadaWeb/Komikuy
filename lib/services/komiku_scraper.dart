@@ -8,6 +8,21 @@ import 'package:komikuy/models/chapter.dart';
 class KomikuScraper {
   static const String baseUrl = 'https://komiku.org';
 
+  static Map<String, String> get headers => {
+        'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+        'Referer': '$baseUrl/',
+      };
+
+  static Map<String, String> getImageHeaders({String? referer}) {
+    return {
+      'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+      'Referer': referer ?? '$baseUrl/',
+      'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+    };
+  }
+
   // Helper to fix relative URLs
   String _fixUrl(String url) {
     if (url.startsWith('//')) {
@@ -41,10 +56,7 @@ class KomikuScraper {
   // Helper to fetch and parse a list of comics from a URL
   Future<List<Comic>> _fetchComicList(String url,
       {String? errorMessage}) async {
-    final response = await http.get(Uri.parse(url), headers: {
-      'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-    });
+    final response = await http.get(Uri.parse(url), headers: headers);
     if (response.statusCode != 200) {
       throw Exception(errorMessage ?? 'Failed to fetch data from $url');
     }
@@ -108,10 +120,7 @@ class KomikuScraper {
 
   Future<Map<String, List<Comic>>> getHomeData() async {
     try {
-      final response = await http.get(Uri.parse(baseUrl), headers: {
-        'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      });
+      final response = await http.get(Uri.parse(baseUrl), headers: headers);
       if (response.statusCode != 200) {
         throw Exception('Failed to load home page');
       }
@@ -243,10 +252,7 @@ class KomikuScraper {
 
   Future<ComicDetail> getComicDetail(String url) async {
     try {
-      final response = await http.get(Uri.parse(url), headers: {
-        'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      });
+      final response = await http.get(Uri.parse(url), headers: headers);
       if (response.statusCode != 200) {
         throw Exception('Failed to load detail page');
       }
@@ -327,10 +333,7 @@ class KomikuScraper {
 
   Future<List<String>> getChapterImages(String url) async {
     try {
-      final response = await http.get(Uri.parse(url), headers: {
-        'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      });
+      final response = await http.get(Uri.parse(url), headers: headers);
       if (response.statusCode != 200) {
         throw Exception('Failed to load chapter page');
       }
