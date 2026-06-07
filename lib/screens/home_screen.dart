@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:komikuy/models/comic.dart';
+import 'package:komikuy/services/komiku_scraper.dart';
 import 'package:komikuy/providers/comic_provider.dart';
 import 'package:komikuy/screens/detail_screen.dart';
 import 'package:komikuy/screens/search_screen.dart';
@@ -191,10 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(16.0),
                           child: CachedNetworkImage(
-                            httpHeaders: const {
-                              'User-Agent':
-                                  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                            },
+                            httpHeaders: KomikuScraper.getImageHeaders(),
                             imageUrl: comic.cover,
                             fit: BoxFit.cover,
                             placeholder: (context, url) =>

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:komikuy/models/comic.dart';
+import 'package:komikuy/services/komiku_scraper.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ComicCard extends StatelessWidget {
@@ -32,10 +33,7 @@ class ComicCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: CachedNetworkImage(
-                  httpHeaders: const {
-                    'User-Agent':
-                        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                  },
+                  httpHeaders: KomikuScraper.getImageHeaders(),
                   imageUrl: comic.cover,
                   width: 80,
                   height: 110,
@@ -153,10 +151,7 @@ class ComicCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: CachedNetworkImage(
-                    httpHeaders: const {
-                      'User-Agent':
-                          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                    },
+                    httpHeaders: KomikuScraper.getImageHeaders(),
                     imageUrl: comic.cover,
                     width: double.infinity,
                     height: double.infinity,
