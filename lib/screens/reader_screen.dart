@@ -156,7 +156,8 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 final images = snapshot.data!;
                 return ListView.builder(
                   padding: EdgeInsets.zero,
-                  scrollCacheExtent: 2000.0, // Optimize scrolling smoothness
+                  // ignore: undefined_named_parameter, undefined_class, undefined_identifier, argument_type_not_assignable
+                  scrollCacheExtent: const ScrollCacheExtent.pixels(2000.0), // Optimize scrolling smoothness
                   itemCount: images.length,
                   itemBuilder: (context, index) {
                     return CachedNetworkImage(
