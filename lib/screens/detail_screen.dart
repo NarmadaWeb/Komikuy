@@ -213,7 +213,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                           : 'N/A',
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 14),                                      maxLines: 1,
+                                          fontSize: 14),
+                                      maxLines: 1,
                                       overflow: TextOverflow.ellipsis),
                                 ],
                               ),
