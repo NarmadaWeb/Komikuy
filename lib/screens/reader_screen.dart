@@ -156,6 +156,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                 final images = snapshot.data!;
                 return ListView.builder(
                   padding: EdgeInsets.zero,
+                  // ignore: deprecated_member_use
                   cacheExtent: 2000.0, // Optimize scrolling smoothness
                   itemCount: images.length,
                   itemBuilder: (context, index) {
