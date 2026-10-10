@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:komikuy/l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:komikuy/models/chapter.dart';
 import 'package:komikuy/models/comic.dart';
@@ -29,11 +31,22 @@ class _ReaderScreenState extends State<ReaderScreen> {
   late Chapter _currentChapter;
   late Future<List<String>> _imagesFuture;
   late int _currentIndex;
+  late final ScrollController _scrollController;
+
   bool _showUI = true;
+  bool _isAutoScrolling = false;
+  double _autoScrollSpeed = 1.0;
+  Timer? _autoScrollTimer;
+
+  static const List<double> _speeds = [0.5, 1.0, 1.5, 2.0, 3.0];
+
+  double _accumulatedOverscroll = 0.0;
+  bool _isNavigating = false;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     _currentChapter = widget.initialChapter;
     _currentIndex =
         widget.chapters.indexWhere((c) => c.href == _currentChapter.href);
@@ -50,6 +63,10 @@ class _ReaderScreenState extends State<ReaderScreen> {
   }
 
   void _navigateToChapter(Chapter chapter) {
+    _stopAutoScroll();
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0);
+    }
     setState(() {
       _currentChapter = chapter;
       _currentIndex =
@@ -62,8 +79,56 @@ class _ReaderScreenState extends State<ReaderScreen> {
         .addToHistory(widget.comic, chapter: _currentChapter);
   }
 
+  void _startAutoScroll() {
+    _autoScrollTimer?.cancel();
+    setState(() {
+      _isAutoScrolling = true;
+    });
+    _autoScrollTimer =
+        Timer.periodic(const Duration(milliseconds: 16), (timer) {
+      if (!_isAutoScrolling || !_scrollController.hasClients) return;
+      final maxScroll = _scrollController.position.maxScrollExtent;
+      final currentScroll = _scrollController.offset;
+      final step = _autoScrollSpeed * 1.5;
+      if (currentScroll + step >= maxScroll) {
+        _scrollController.jumpTo(maxScroll);
+        _stopAutoScroll();
+      } else {
+        _scrollController.jumpTo(currentScroll + step);
+      }
+    });
+  }
+
+  void _stopAutoScroll() {
+    _autoScrollTimer?.cancel();
+    _autoScrollTimer = null;
+    if (_isAutoScrolling) {
+      setState(() {
+        _isAutoScrolling = false;
+      });
+    }
+  }
+
+  void _toggleAutoScroll() {
+    if (_isAutoScrolling) {
+      _stopAutoScroll();
+    } else {
+      _startAutoScroll();
+    }
+  }
+
+  void _cycleSpeed() {
+    setState(() {
+      final currentIndex = _speeds.indexOf(_autoScrollSpeed);
+      final nextIndex = (currentIndex + 1) % _speeds.length;
+      _autoScrollSpeed = _speeds[nextIndex];
+    });
+  }
+
   @override
   void dispose() {
+    _stopAutoScroll();
+    _scrollController.dispose();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     super.dispose();
   }
@@ -72,6 +137,56 @@ class _ReaderScreenState extends State<ReaderScreen> {
     setState(() {
       _showUI = !_showUI;
     });
+  }
+
+  bool _onScrollNotification(ScrollNotification notification) {
+    if (notification is UserScrollNotification) {
+      if (notification.direction != ScrollDirection.idle && _isAutoScrolling) {
+        _stopAutoScroll();
+      }
+    }
+
+    final currentIndex = _currentIndex;
+    final hasNext = currentIndex > 0;
+    final hasPrev =
+        currentIndex != -1 && currentIndex < widget.chapters.length - 1;
+
+    if (notification is OverscrollNotification) {
+      _accumulatedOverscroll += notification.overscroll;
+      if (!_isNavigating) {
+        // Dragging/pulling UP at bottom -> next chapter (newer)
+        if (_scrollController.hasClients &&
+            _scrollController.position.pixels >=
+                _scrollController.position.maxScrollExtent - 10 &&
+            _accumulatedOverscroll > 40 &&
+            hasNext) {
+          _isNavigating = true;
+          _accumulatedOverscroll = 0;
+          _navigateToChapter(widget.chapters[currentIndex - 1]);
+          Future.delayed(const Duration(milliseconds: 500), () {
+            _isNavigating = false;
+          });
+        }
+        // Dragging/pulling DOWN at top -> previous chapter (older)
+        else if (_scrollController.hasClients &&
+            _scrollController.position.pixels <= 10 &&
+            _accumulatedOverscroll < -40 &&
+            hasPrev) {
+          _isNavigating = true;
+          _accumulatedOverscroll = 0;
+          _navigateToChapter(widget.chapters[currentIndex + 1]);
+          Future.delayed(const Duration(milliseconds: 500), () {
+            _isNavigating = false;
+          });
+        }
+      }
+    }
+
+    if (notification is ScrollEndNotification) {
+      _accumulatedOverscroll = 0.0;
+    }
+
+    return false;
   }
 
   void _showChaptersSheet() {
@@ -108,24 +223,18 @@ class _ReaderScreenState extends State<ReaderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Bolt: Hoist MediaQuery lookups out of the itemBuilder to optimize scrolling performance
     final mediaQuery = MediaQuery.of(context);
     final cacheWidth =
         (mediaQuery.size.width * mediaQuery.devicePixelRatio).round();
 
-    // Optimized: Use state variable instead of O(n) lookup in build
     final currentIndex = _currentIndex;
-
-    // Assuming standard manga list order: Newest (Index 0) -> Oldest (Index N)
-    // "Next" usually means reading forward in the story (e.g. Ch 1 -> Ch 2).
-    // If list is [Ch 10, Ch 9, ... Ch 1]
-    // Ch 1 is at Index N. Next is Ch 2 (Index N-1).
-    // So Next is index - 1.
-    // Prev is index + 1.
-
     final hasNext = currentIndex > 0;
     final hasPrev =
         currentIndex != -1 && currentIndex < widget.chapters.length - 1;
+
+    final l10n = AppLocalizations.of(context)!;
+    final formattedSpeed =
+        '${_autoScrollSpeed.toStringAsFixed(1).replaceAll('.0', '')}x';
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -134,59 +243,64 @@ class _ReaderScreenState extends State<ReaderScreen> {
         children: [
           GestureDetector(
             onTap: _toggleUI,
-            child: FutureBuilder<List<String>>(
-              future: _imagesFuture,
-              key: ValueKey(
-                  _currentChapter.href), // Force rebuild on chapter change
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (snapshot.hasError) {
-                  return Center(
-                      child: Text('Error: ${snapshot.error}',
-                          style: const TextStyle(color: Colors.white)));
-                }
-                if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(
-                      child: Text(AppLocalizations.of(context)!.noImagesFound,
-                          style: const TextStyle(color: Colors.white)));
-                }
+            child: NotificationListener<ScrollNotification>(
+              onNotification: _onScrollNotification,
+              child: FutureBuilder<List<String>>(
+                future: _imagesFuture,
+                key: ValueKey(_currentChapter.href),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    return Center(
+                        child: Text('Error: ${snapshot.error}',
+                            style: const TextStyle(color: Colors.white)));
+                  }
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(
+                        child: Text(l10n.noImagesFound,
+                            style: const TextStyle(color: Colors.white)));
+                  }
 
-                final images = snapshot.data!;
-                return ListView.builder(
-                  padding: EdgeInsets.zero,
-                  // ignore: deprecated_member_use
-                  cacheExtent: 2000.0, // Optimize scrolling smoothness
-                  itemCount: images.length,
-                  itemBuilder: (context, index) {
-                    return CachedNetworkImage(
-                      httpHeaders: KomikuScraper.getImageHeaders(
-                          referer: _currentChapter.href),
-                      imageUrl: images[index],
-                      fit: BoxFit.fitWidth,
-                      width: double.infinity,
-                      // Optimize memory by decoding at display-appropriate resolution
-                      memCacheWidth: cacheWidth,
-                      placeholder: (context, url) => SizedBox(
-                        height: 300,
-                        child: Shimmer.fromColors(
-                          baseColor: Colors.grey[900]!,
-                          highlightColor: Colors.grey[800]!,
-                          child: Container(color: Colors.black),
+                  final images = snapshot.data!;
+                  return ListView.builder(
+                    controller: _scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(
+                      parent: BouncingScrollPhysics(),
+                    ),
+                    padding: EdgeInsets.zero,
+                    // ignore: deprecated_member_use
+                    cacheExtent: 2000.0,
+                    itemCount: images.length,
+                    itemBuilder: (context, index) {
+                      return CachedNetworkImage(
+                        httpHeaders: KomikuScraper.getImageHeaders(
+                            referer: _currentChapter.href),
+                        imageUrl: images[index],
+                        fit: BoxFit.fitWidth,
+                        width: double.infinity,
+                        memCacheWidth: cacheWidth,
+                        placeholder: (context, url) => SizedBox(
+                          height: 300,
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey[900]!,
+                            highlightColor: Colors.grey[800]!,
+                            child: Container(color: Colors.black),
+                          ),
                         ),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        height: 200,
-                        color: Colors.grey[900],
-                        child: const Center(
-                            child:
-                                Icon(Icons.broken_image, color: Colors.white)),
-                      ),
-                    );
-                  },
-                );
-              },
+                        errorWidget: (context, url, error) => Container(
+                          height: 200,
+                          color: Colors.grey[900],
+                          child: const Center(
+                              child: Icon(Icons.broken_image,
+                                  color: Colors.white)),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
 
@@ -211,14 +325,52 @@ class _ReaderScreenState extends State<ReaderScreen> {
                   icon: const Icon(Icons.bookmark_border),
                   onPressed: () {
                     context.read<ComicProvider>().toggleBookmark(widget.comic);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                            AppLocalizations.of(context)!.toggledBookmark)));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(l10n.toggledBookmark)));
                   },
                 ),
               ],
             ),
           ),
+
+          // Floating Auto-Scroll Control when UI is hidden
+          if (!_showUI && _isAutoScrolling)
+            Positioned(
+              bottom: 24,
+              right: 16,
+              child: Material(
+                color: Colors.black.withValues(alpha: 0.75),
+                borderRadius: BorderRadius.circular(24),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.pause, color: Colors.white),
+                        onPressed: _stopAutoScroll,
+                        tooltip: 'Pause',
+                      ),
+                      InkWell(
+                        onTap: _cycleSpeed,
+                        borderRadius: BorderRadius.circular(12),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            formattedSpeed,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
 
           // Bottom Bar
           AnimatedPositioned(
@@ -228,7 +380,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
             right: 0,
             child: Container(
               color: Colors.black.withValues(alpha: 0.8),
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -241,13 +393,36 @@ class _ReaderScreenState extends State<ReaderScreen> {
                         : null,
                     icon: Icon(Icons.skip_previous,
                         color: hasPrev ? Colors.white : Colors.grey),
-                    label: Text(AppLocalizations.of(context)!.prev,
+                    label: Text(l10n.prev,
                         style: TextStyle(
                             color: hasPrev ? Colors.white : Colors.grey)),
                   ),
-                  IconButton(
-                    onPressed: _showChaptersSheet,
-                    icon: const Icon(Icons.list, color: Colors.white),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        onPressed: _toggleAutoScroll,
+                        icon: Icon(
+                          _isAutoScrolling ? Icons.pause : Icons.play_arrow,
+                          color: _isAutoScrolling ? Colors.blue : Colors.white,
+                        ),
+                        tooltip: l10n.autoScroll,
+                      ),
+                      TextButton(
+                        onPressed: _cycleSpeed,
+                        child: Text(
+                          formattedSpeed,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: _showChaptersSheet,
+                        icon: const Icon(Icons.list, color: Colors.white),
+                      ),
+                    ],
                   ),
                   TextButton.icon(
                     onPressed: hasNext
@@ -256,7 +431,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                                 widget.chapters[currentIndex - 1]);
                           }
                         : null,
-                    label: Text(AppLocalizations.of(context)!.next,
+                    label: Text(l10n.next,
                         style: TextStyle(
                             color: hasNext ? Colors.white : Colors.grey)),
                     icon: Icon(Icons.skip_next,

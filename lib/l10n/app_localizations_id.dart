@@ -168,4 +168,10 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get delete => 'Hapus';
+
+  @override
+  String get autoScroll => 'Gulir Otomatis';
+
+  @override
+  String get speed => 'Kecepatan';
 }

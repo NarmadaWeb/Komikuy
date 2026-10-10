@@ -81,12 +81,12 @@ class SettingsScreen extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.info_outline),
                 title: Text(l10n.aboutKomikuy),
-                subtitle: const Text('Version 1.0.0'),
+                subtitle: const Text('Version 1.3.0'),
                 onTap: () {
                   showAboutDialog(
                     context: context,
                     applicationName: 'Komikuy',
-                    applicationVersion: '1.0.0',
+                    applicationVersion: '1.3.0',
                     applicationIcon:
                         const Icon(Icons.book, size: 48, color: Colors.blue),
                     children: const [

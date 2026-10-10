@@ -51,5 +51,7 @@
   "noDataFound": "No data found",
   "deleteSelected": "Delete Selected",
   "deleteSelectedConfirm": "Are you sure you want to delete selected history items?",
-  "delete": "Delete"
+  "delete": "Delete",
+  "autoScroll": "Auto Scroll",
+  "speed": "Speed"
 }
