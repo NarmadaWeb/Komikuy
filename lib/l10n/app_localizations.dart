@@ -409,6 +409,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// No description provided for @autoScroll.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Scroll'**
+  String get autoScroll;
+
+  /// No description provided for @speed.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get speed;
 }
 
 class _AppLocalizationsDelegate

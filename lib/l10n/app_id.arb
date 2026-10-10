@@ -51,5 +51,7 @@
   "noDataFound": "Data tidak ditemukan",
   "deleteSelected": "Hapus yang Dipilih",
   "deleteSelectedConfirm": "Apakah Anda yakin ingin menghapus riwayat yang dipilih?",
-  "delete": "Hapus"
+  "delete": "Hapus",
+  "autoScroll": "Gulir Otomatis",
+  "speed": "Kecepatan"
 }
