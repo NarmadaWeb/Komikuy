@@ -35,7 +35,7 @@ class KomikuScraper {
     return url;
   }
 
-  // Helper to extract image source (data-src or src)
+  // Helper to extract image source (data-src, data-lazy-src, data-original, srcset, or src)
   String _extractImage(Element element) {
     Element? img;
     if (element.localName == 'img') {
@@ -46,12 +46,37 @@ class KomikuScraper {
 
     if (img == null) return '';
 
-    // Check data-src first for lazy loaded images
-    var src = img.attributes['data-src'];
-    if (src != null && src.isNotEmpty) return _fixUrl(src);
+    // Candidate attributes for real image URL
+    final candidates = [
+      img.attributes['data-src'],
+      img.attributes['data-lazy-src'],
+      img.attributes['data-original'],
+    ];
 
-    src = img.attributes['src'];
-    return src != null ? _fixUrl(src) : '';
+    for (var candidate in candidates) {
+      if (candidate != null &&
+          candidate.isNotEmpty &&
+          !candidate.contains('lazy.jpg')) {
+        return _fixUrl(candidate.trim());
+      }
+    }
+
+    // Check srcset attribute
+    var srcset = img.attributes['srcset'];
+    if (srcset != null && srcset.isNotEmpty) {
+      var firstUrl = srcset.split(',').first.trim().split(' ').first;
+      if (firstUrl.isNotEmpty && !firstUrl.contains('lazy.jpg')) {
+        return _fixUrl(firstUrl);
+      }
+    }
+
+    // Fallback to src if it's not a lazy placeholder
+    var src = img.attributes['src'];
+    if (src != null && src.isNotEmpty && !src.contains('lazy.jpg')) {
+      return _fixUrl(src.trim());
+    }
+
+    return '';
   }
 
   // Helper to fetch and parse a list of comics from a URL
