@@ -62,8 +62,10 @@ class _ReaderScreenState extends State<ReaderScreen> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   }
 
-  void _navigateToChapter(Chapter chapter) {
-    _stopAutoScroll();
+  void _navigateToChapter(Chapter chapter, {bool keepAutoScroll = false}) {
+    if (!keepAutoScroll) {
+      _stopAutoScroll();
+    }
     if (_scrollController.hasClients) {
       _scrollController.jumpTo(0);
     }
@@ -90,10 +92,21 @@ class _ReaderScreenState extends State<ReaderScreen> {
       final maxScroll = _scrollController.position.maxScrollExtent;
       final currentScroll = _scrollController.offset;
       final step = _autoScrollSpeed * 1.5;
-      if (currentScroll + step >= maxScroll) {
-        _scrollController.jumpTo(maxScroll);
-        _stopAutoScroll();
-      } else {
+      if (maxScroll > 0 && currentScroll + step >= maxScroll) {
+        final currentIndex = _currentIndex;
+        final hasNext = currentIndex > 0;
+        if (hasNext && !_isNavigating) {
+          _isNavigating = true;
+          _navigateToChapter(widget.chapters[currentIndex - 1],
+              keepAutoScroll: true);
+          Future.delayed(const Duration(milliseconds: 500), () {
+            _isNavigating = false;
+          });
+        } else if (!hasNext) {
+          _scrollController.jumpTo(maxScroll);
+          _stopAutoScroll();
+        }
+      } else if (maxScroll > 0) {
         _scrollController.jumpTo(currentScroll + step);
       }
     });
@@ -178,6 +191,37 @@ class _ReaderScreenState extends State<ReaderScreen> {
           Future.delayed(const Duration(milliseconds: 500), () {
             _isNavigating = false;
           });
+        }
+      }
+    }
+
+    if (notification is ScrollUpdateNotification) {
+      if (!_isNavigating && notification.scrollDelta != null) {
+        if (_scrollController.hasClients &&
+            _scrollController.position.pixels >=
+                _scrollController.position.maxScrollExtent - 10 &&
+            notification.scrollDelta! > 0) {
+          _accumulatedOverscroll += notification.scrollDelta!;
+          if (_accumulatedOverscroll > 40 && hasNext) {
+            _isNavigating = true;
+            _accumulatedOverscroll = 0;
+            _navigateToChapter(widget.chapters[currentIndex - 1]);
+            Future.delayed(const Duration(milliseconds: 500), () {
+              _isNavigating = false;
+            });
+          }
+        } else if (_scrollController.hasClients &&
+            _scrollController.position.pixels <= 10 &&
+            notification.scrollDelta! < 0) {
+          _accumulatedOverscroll += notification.scrollDelta!;
+          if (_accumulatedOverscroll < -40 && hasPrev) {
+            _isNavigating = true;
+            _accumulatedOverscroll = 0;
+            _navigateToChapter(widget.chapters[currentIndex + 1]);
+            Future.delayed(const Duration(milliseconds: 500), () {
+              _isNavigating = false;
+            });
+          }
         }
       }
     }

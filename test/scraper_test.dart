@@ -12,7 +12,8 @@ void main() {
     for (var comic in data['popular']!) {
       expect(comic.cover, isNotEmpty);
       expect(comic.cover.contains('lazy.jpg'), false,
-          reason: 'Popular comic cover should not be placeholder lazy.jpg: ${comic.cover}');
+          reason:
+              'Popular comic cover should not be placeholder lazy.jpg: ${comic.cover}');
       expect(comic.cover.startsWith('http'), true,
           reason: 'Popular comic cover should be full URL: ${comic.cover}');
     }
@@ -20,7 +21,8 @@ void main() {
     for (var comic in data['latest']!) {
       expect(comic.cover, isNotEmpty);
       expect(comic.cover.contains('lazy.jpg'), false,
-          reason: 'Latest comic cover should not be placeholder lazy.jpg: ${comic.cover}');
+          reason:
+              'Latest comic cover should not be placeholder lazy.jpg: ${comic.cover}');
       expect(comic.cover.startsWith('http'), true,
           reason: 'Latest comic cover should be full URL: ${comic.cover}');
     }
@@ -34,9 +36,11 @@ void main() {
       for (var comic in results) {
         expect(comic.cover, isNotEmpty);
         expect(comic.cover.contains('lazy.jpg'), false,
-            reason: 'Search result comic cover should not be placeholder lazy.jpg: ${comic.cover}');
+            reason:
+                'Search result comic cover should not be placeholder lazy.jpg: ${comic.cover}');
         expect(comic.cover.startsWith('http'), true,
-            reason: 'Search result comic cover should be full URL: ${comic.cover}');
+            reason:
+                'Search result comic cover should be full URL: ${comic.cover}');
       }
     } catch (e) {
       // Cloudflare may block requests in some environments.
@@ -58,7 +62,8 @@ void main() {
       for (var comic in results) {
         expect(comic.cover, isNotEmpty);
         expect(comic.cover.contains('lazy.jpg'), false,
-            reason: 'Genre comic cover should not be placeholder lazy.jpg: ${comic.cover}');
+            reason:
+                'Genre comic cover should not be placeholder lazy.jpg: ${comic.cover}');
         expect(comic.cover.startsWith('http'), true,
             reason: 'Genre comic cover should be full URL: ${comic.cover}');
       }
